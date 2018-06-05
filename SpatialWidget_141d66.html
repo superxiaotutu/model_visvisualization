@@ -1,0 +1,110 @@
+%%html_define_svelte SpatialWidget
+
+<div class="figure" style="width: 500px; height: 250px; contain: strict;">
+  <div class="outer" on:mouseleave="set({pos2: undefined})">
+    <img class="img"  src="{{img}}">
+    <img class="attr" src="{{(pos1 == undefined)? hint1 : spritemap1[pos1[1]][pos1[0]]}}">
+
+    <svg class="pointer_container" viewBox="0 0 {{size1}} {{size1}}">
+      {{#each xs1 as x}}
+      {{#each ys1 as y}}
+        <rect x={{x}} y={{y}} width=1 height=1
+          class={{(pos2 != undefined && x == pos2[0] && y == pos2[1])? "selected" : ""}}
+          on:mouseover="set({pos2: [x,y], pos1: undefined})"></rect>
+      {{/each}}
+      {{/each}}
+    </svg>
+
+    <div class="label">{{layer1}}</div>
+  </div>
+
+  <div class="outer" on:mouseleave="set({pos1: undefined})">
+    <img class="img" src="{{img}}">
+    <img class="attr" src="{{(pos2 == undefined)? hint2 : spritemap2[pos2[1]][pos2[0]]}}">
+
+    <svg class="pointer_container" viewBox="0 0 {{size2}} {{size2}}">
+      {{#each xs2 as x}}
+      {{#each ys2 as y}}
+        <rect x={{x}} y={{y}} width=1 height=1
+          class={{(pos1 != undefined && x == pos1[0] && y == pos1[1])? "selected" : ""}}
+          on:mouseover="set({pos1: [x,y], pos2: undefined})"></rect>
+      {{/each}}
+      {{/each}}
+    </svg>
+
+    <div class="label">{{layer2}}</div>
+  </div>
+
+</div>
+
+
+<style>
+
+  .outer{
+    width: 224px;
+    height: 224px;
+    display: inline-block;
+    margin-right: 2px;
+    position: relative;
+  }
+  .outer img, .outer svg {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 224px;
+    height: 224px;
+    image-rendering: pixelated;
+  }
+  .attr {
+    opacity: 0.6;
+  }
+  .pointer_container {
+    z-index: 100;
+  }
+  .pointer_container rect {
+    opacity: 0;
+  }
+  .pointer_container .selected  {
+    opacity: 1;
+    fill: none;
+    stroke: hsl(24, 100%, 50%);
+    stroke-width: 0.1px;
+  }
+  .label{
+    position: absolute;
+    left: 0px;
+    top: 226px;
+    width: 224px;
+  }
+</style>
+
+<script>
+  function range(n){
+    return Array(n).fill().map((_, i) => i);
+  }
+
+  export default {
+    data () {
+      return {
+        img: "",
+        hint1: "",
+        hint2: "",
+        spritemap1 : "",
+        size1: 1,
+        spritemap2 : "",
+        size2: 1,
+        pos1: undefined,
+        pos2: undefined,
+        layer1: "",
+        layer2: ""
+      };
+    },
+    computed: {
+      xs1: (size1) => range(size1),
+      ys1: (size1) => range(size1),
+      xs2: (size2) => range(size2),
+      ys2: (size2) => range(size2)
+    },
+    helpers: {range}
+  };
+</script>

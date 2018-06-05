@@ -1,0 +1,86 @@
+%%html_define_svelte GroupWidget
+
+<div class="figure" style="width: 600px;">
+  <div class="outer" on:mouseover="set({pres_n: undefined})">
+    <img src="{{img}}">
+    {{#if pres_n != undefined}}
+    <img src="{{spatial_factors[pres_n]}}" class="overlay"  >
+    {{/if}}
+  </div>
+
+  <div class="outer" on:mouseover="set({pres_n: undefined})">
+    <div style="width:100%; height: 100%; background-color: #000;"></div>
+    {{#each range(n_groups) as n}}
+    {{#if pres_n == undefined || pres_n == n}}
+    <img src="{{spatial_factors[n]}}" class="factor"
+         style="filter: hue-rotate({{n*360/n_groups}}deg);">
+    {{/if}}
+    {{/each}}
+  </div>
+
+  <br>
+  <br>
+
+  <div on:mouseleave="set({pres_n: undefined})">
+    {{#each range(n_groups) as n}}
+    <div class="group" style="background-color: hsl({{n*360/n_groups}}, 80%, 50%); "
+         on:mouseover="set({pres_n: n})">
+      <img src="{{group_icons[n]}}">
+    </div>
+    {{/each}}
+  </div>
+
+</div>
+
+
+<style>
+  .outer{
+    width: 224px;
+    height: 224px;
+    display: inline-block;
+    margin-right: 2px;
+    position: relative;
+  }
+  .outer img {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 224px;
+    height: 224px;
+    image-rendering: pixelated;
+  }
+  .factor {
+    mix-blend-mode: lighten;
+  }
+  .overlay {
+    filter: grayscale(100%) brightness(3);
+    mix-blend-mode: multiply;
+  }
+  .group {
+    width: 80px;
+    height: 80px;
+    margin-right: 4px;
+    display: inline-block;
+    padding-top: 10px;
+  }
+</style>
+
+<script>
+  function range(n){
+    return Array(n).fill().map((_, i) => i);
+  }
+
+  export default {
+    data () {
+      return {
+        img: "",
+        n_groups: 1,
+        spatial_factors: [""],
+        group_icons: [""],
+        pres_n: undefined,
+
+      };
+    },
+    helpers: {range}
+  };
+</script>
