@@ -1,3 +1,9 @@
+'''
+!pip install --quiet lucid==0.0.5
+!npm install -g svelte-cli@2.2.0
+svelte compile --format iife SpatialWidget_3725625.html > SpatialWidget_3725625.js
+'''
+
 
 import numpy as np
 import tensorflow as tf
@@ -44,7 +50,7 @@ def raw_class_group_attr(img, layer, label, group_vecs, override=None):
         return [np.sum(group_vec * grad) for group_vec in group_vecs]
 
 
-def neuron_groups(img, layer, n_groups=6, attr_classes=None):
+def neuron_groups(img, filename,layer, n_groups=6, attr_classes=None):
     # Compute activations
 
     if attr_classes is None:
@@ -89,7 +95,7 @@ def neuron_groups(img, layer, n_groups=6, attr_classes=None):
     )
 
     # Let's render the visualization!
-    with open('results.html', 'w') as f:
+    with open('results_'+filename+'.html', 'w') as f:
         f.write('''<!DOCTYPE html>
                     <html>
                     <head >
@@ -117,4 +123,9 @@ def neuron_groups(img, layer, n_groups=6, attr_classes=None):
 
 
 img = load("dog_cat.png")
-neuron_groups(img, "mixed4d", 6, ["Labrador retriever", "tiger cat"])
+filename='dog'
+# neuron_groups(img, "mixed4d", 6, ["tabby"])
+neuron_groups(img, filename,"mixed4d", 6, ["Labrador retriever", "tiger cat"])
+
+
+# hint_label_1="Labrador retriever", hint_label_2="tiger cat"

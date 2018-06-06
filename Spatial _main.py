@@ -146,11 +146,11 @@ def spatial_spatial_attr(img, layer1, layer2, hint_label_1=None, hint_label_2=No
 
 import cv2
 
-img = cv2.imread('new_dog.jpg')
+# img = cv2.imread('rar.png')
 # img = cv2.resize(img, (224, 224))
-# cv2.imwrite('new_dog',img)
-img = load('new_dog.jpg')
+# cv2.imwrite('new_rar.png',img)
+img = load('new_rar.png')
 
 spatial_spatial_attr(img, "mixed3a", "mixed5b", hint_label_1="Siberian husky")
-
+# hint_label_1="Labrador retriever", hint_label_2="tiger cat"
 print("\nHover on images to interact! :D\n")
