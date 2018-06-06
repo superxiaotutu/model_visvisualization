@@ -121,10 +121,10 @@ def neuron_groups(img, filename,layer, n_groups=6, attr_classes=None):
                 </html>''')
 
 
-img = cv2.imread('adv.png')
-img = cv2.resize(img, (224, 224))
-cv2.imwrite('new_adv.png',img)
-img = load("new_adv.png")
+img = cv2.imread('new_adv.png')
+# img = cv2.resize(img, (224, 224))
+# cv2.imwrite('new_adv.png',img)
+# img = load("new_adv.png")
 filename='adv'
 # neuron_groups(img, "mixed4d", 6, ["tabby"])
 neuron_groups(img, filename,"mixed4d", 6, ["Labrador retriever", "tiger cat"])
