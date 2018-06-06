@@ -3,8 +3,7 @@
 !npm install -g svelte-cli@2.2.0
 svelte compile --format iife SpatialWidget_3725625.html > SpatialWidget_3725625.js
 '''
-
-
+import cv2
 import numpy as np
 import tensorflow as tf
 
@@ -122,8 +121,11 @@ def neuron_groups(img, filename,layer, n_groups=6, attr_classes=None):
                 </html>''')
 
 
-img = load("dog_cat.png")
-filename='dog'
+img = cv2.imread('adv.png')
+img = cv2.resize(img, (224, 224))
+cv2.imwrite('new_adv.png',img)
+img = load("new_adv.png")
+filename='adv'
 # neuron_groups(img, "mixed4d", 6, ["tabby"])
 neuron_groups(img, filename,"mixed4d", 6, ["Labrador retriever", "tiger cat"])
 
