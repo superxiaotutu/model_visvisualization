@@ -1,8 +1,3 @@
-'''
-!pip install --quiet lucid==0.0.5
-!npm install -g svelte-cli@2.2.0
-svelte compile --format iife SpatialWidget_3725625.html > SpatialWidget_3725625.js
-'''
 import cv2
 import numpy as np
 import tensorflow as tf
@@ -26,7 +21,6 @@ labels = [line[line.find(" "):].strip() for line in labels_str.split("\n")]
 labels = [label[label.find(" "):].strip().replace("_", " ") for label in labels]
 labels = ["dummy"] + labels
 
-
 def raw_class_group_attr(img, layer, label, group_vecs, override=None):
     """How much did spatial positions at a given layer effect a output class?"""
 
@@ -47,7 +41,6 @@ def raw_class_group_attr(img, layer, label, group_vecs, override=None):
 
         # Linear approximation of effect of spatial position
         return [np.sum(group_vec * grad) for group_vec in group_vecs]
-
 
 def neuron_groups(img, filename,layer, n_groups=6, attr_classes=None):
     # Compute activations
@@ -94,7 +87,7 @@ def neuron_groups(img, filename,layer, n_groups=6, attr_classes=None):
     )
 
     # Let's render the visualization!
-    with open('results_'+filename+'.html', 'w') as f:
+    with open('result/'+filename+'.html', 'a') as f:
         f.write('''<!DOCTYPE html>
                     <html>
                     <head >
@@ -120,14 +113,21 @@ def neuron_groups(img, filename,layer, n_groups=6, attr_classes=None):
                 </body>
                 </html>''')
 
+img = load("rar.png")
+filename='tutu'
 
-# img = cv2.imread('new_adv.png')
-# img = cv2.resize(img, (224, 224))
-# cv2.imwrite('new_adv.png',img)
-img = load("new_rar.png")
-filename='rar'
-neuron_groups(img, filename, "mixed4d", 6, ["tabby"])
-# neuron_groups(img, filename,"mixed4d", 6, ["Labrador retriever", "tiger cat"])
-
-
-# hint_label_1="Labrador retriever", hint_label_2="tiger cat"
+img = img[:,:,0:3]
+neuron_groups(img, filename, "mixed5a", 2, ["guacamole"])
+# 4d
+# tabby
+# [[ 0.74442852  0.91507626 -1.47238791  0.45166963  0.42995349  1.96742225
+#    1.36328828  2.02877903  2.45953035 -0.94934189  1.11171043  1.10638499
+#    0.04262164  0.23066241  1.62526214  0.4787069   0.6795724   0.66656137]]
+# adv_tabby
+# [[ 0.74019086  0.80981618  0.52197969  0.79553312  1.85799694  0.53119451
+#    1.37018788  0.39277077  1.71987665  2.58694148  0.25573224  0.85892642
+#   -1.35404253  1.81914413  1.73091662  0.27351204  0.38520172 -1.72054458]]
+# guacamole
+# [[ 0.1335488   0.21030641 -0.80043489  0.06769263  0.21869409 -0.74621248
+#    0.22617681 -0.12130944  0.36734137  0.73916131 -0.06092065  0.94749385
+#   -0.4751839   0.0404107   0.37815315 -0.12266797 -0.61753893  0.02945981]]

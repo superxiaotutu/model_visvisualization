@@ -1,15 +1,11 @@
 import numpy as np
 import tensorflow as tf
-from IPython import get_ipython
 import lucid.modelzoo.vision_models as models
-from lucid.misc.io import show
 import lucid.optvis.render as render
 from lucid.misc.io import show, load
 from lucid.misc.io.reading import read
 from lucid.misc.io.showing import _image_url
 from lucid.misc.gradient_override import gradient_override_map
-
-# import lucid.scratch.web.svelte as lucid_svelte
 
 model = models.InceptionV1()
 model.load_graphdef()
@@ -19,7 +15,6 @@ labels_str = read("https://gist.githubusercontent.com/aaronpolhamus/964a4411c090
 labels = [line[line.find(" "):].strip() for line in labels_str.split("\n")]
 labels = [label[label.find(" "):].strip().replace("_", " ") for label in labels]
 labels = ["dummy"] + labels
-
 
 def raw_class_spatial_attr(img, layer, label, override=None):
     """How much did spatial positions at a given layer effect a output class?"""
@@ -41,7 +36,6 @@ def raw_class_spatial_attr(img, layer, label, override=None):
 
         # Linear approximation of effect of spatial position
         return np.sum(acts * grad, -1)[0]
-
 
 def raw_spatial_spatial_attr(img, layer1, layer2, override=None):
     """Attribution between spatial positions in two different layers."""
@@ -74,7 +68,6 @@ def raw_spatial_spatial_attr(img, layer1, layer2, override=None):
             attrs.append(attrs_)
     return np.asarray(attrs)
 
-
 def orange_blue(a, b, clip=False):
     if clip:
         a, b = np.maximum(a, 0), np.maximum(b, 0)
@@ -83,12 +76,10 @@ def orange_blue(a, b, clip=False):
     arr += 0.3
     return arr
 
-
 def image_url_grid(grid):
     return [[_image_url(img) for img in line] for line in grid]
 
-
-def spatial_spatial_attr(img, layer1, layer2, hint_label_1=None, hint_label_2=None, override=None):
+def spatial_spatial_attr(img, filename,layer1, layer2, hint_label_1=None, hint_label_2=None, override=None):
     hint1 = orange_blue(
         raw_class_spatial_attr(img, layer1, hint_label_1, override=override),
         raw_class_spatial_attr(img, layer1, hint_label_2, override=override),
@@ -103,7 +94,7 @@ def spatial_spatial_attr(img, layer1, layer2, hint_label_1=None, hint_label_2=No
     attrs = raw_spatial_spatial_attr(img, layer1, layer2, override=override)
     attrs = attrs / attrs.max()
 
-    with open('results.html', 'w') as f:
+    with open('result/'+filename+'.html', 'a') as f:
         f.write('''<!DOCTYPE html>
                     <html>
                     <head >
@@ -112,7 +103,7 @@ def spatial_spatial_attr(img, layer1, layer2, hint_label_1=None, hint_label_2=No
                     </head>
                     <body>
                       <main></main>
-                      <h1>laogewenle </h1>
+                      <h1>RAR</h1>
                       <script>
                         var app = new SpatialWidget_141d66({
                           target: document.querySelector( 'main' ),''')
@@ -131,26 +122,8 @@ def spatial_spatial_attr(img, layer1, layer2, hint_label_1=None, hint_label_2=No
                 </body>
                 </html>''')
 
-        # lucid_svelte.SpatialWidget({
-        #     "spritemap1": image_url_grid(attrs),
-        #     "spritemap2": image_url_grid(attrs.transpose(2, 3, 0, 1)),
-        #     "size1": attrs.shape[3],
-        #     "layer1": layer1,
-        #     "size2": attrs.shape[0],
-        #     "layer2": layer2,
-        #     "img": _image_url(img),
-        #     "hint1": _image_url(hint1),
-        #     "hint2": _image_url(hint2)
-        # })
-
-
-import cv2
-
-# img = cv2.imread('rar.png')
-# img = cv2.resize(img, (224, 224))
-# cv2.imwrite('new_rar.png',img)
-img = load('new_rar.png')
-
-spatial_spatial_attr(img, "mixed3a", "mixed5b", hint_label_1="Siberian husky")
-# hint_label_1="Labrador retriever", hint_label_2="tiger cat"
+img = load('rar.png')
+img = img[:,:,:3]
+filename='rar'
+spatial_spatial_attr(img,filename  , "mixed3a", "mixed5a", hint_label_1="racket")
 print("\nHover on images to interact! :D\n")
