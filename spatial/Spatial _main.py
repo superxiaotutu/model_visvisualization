@@ -6,7 +6,7 @@ from lucid.misc.io import show, load
 from lucid.misc.io.reading import read
 from lucid.misc.io.showing import _image_url
 from lucid.misc.gradient_override import gradient_override_map
-
+# svelte compile --format iife SpatialWidget_3725625.html > SpatialWidget_3725625.js
 model = models.InceptionV1()
 model.load_graphdef()
 labels_str = read("https://gist.githubusercontent.com/aaronpolhamus/964a4411c0906315deb9f4a3723"
