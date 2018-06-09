@@ -123,10 +123,10 @@ imglist=[]
 img = load("rar.png")
 img = img[:, :, 0:3]
 imglist.append(img)
-# img = load("adv.png")
-# img = img[:, :, 0:3]
-# imglist.append(img)
-filenamelist = ['rar']
+img = load("adv.png")
+img = img[:, :, 0:3]
+imglist.append(img)
+filenamelist = ['rar','adv']
 
 
 neuron_groups(imglist, filenamelist, "mixed5a", 2, ["guacamole"])

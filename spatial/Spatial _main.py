@@ -6,6 +6,7 @@ from lucid.misc.io import show, load
 from lucid.misc.io.reading import read
 from lucid.misc.io.showing import _image_url
 from lucid.misc.gradient_override import gradient_override_map
+
 # svelte compile --format iife SpatialWidget_3725625.html > SpatialWidget_3725625.js
 model = models.InceptionV1()
 model.load_graphdef()
@@ -15,6 +16,7 @@ labels_str = read("https://gist.githubusercontent.com/aaronpolhamus/964a4411c090
 labels = [line[line.find(" "):].strip() for line in labels_str.split("\n")]
 labels = [label[label.find(" "):].strip().replace("_", " ") for label in labels]
 labels = ["dummy"] + labels
+
 
 def raw_class_spatial_attr(img, layer, label, override=None):
     """How much did spatial positions at a given layer effect a output class?"""
@@ -36,6 +38,7 @@ def raw_class_spatial_attr(img, layer, label, override=None):
 
         # Linear approximation of effect of spatial position
         return np.sum(acts * grad, -1)[0]
+
 
 def raw_spatial_spatial_attr(img, layer1, layer2, override=None):
     """Attribution between spatial positions in two different layers."""
@@ -68,6 +71,7 @@ def raw_spatial_spatial_attr(img, layer1, layer2, override=None):
             attrs.append(attrs_)
     return np.asarray(attrs)
 
+
 def orange_blue(a, b, clip=False):
     if clip:
         a, b = np.maximum(a, 0), np.maximum(b, 0)
@@ -76,54 +80,67 @@ def orange_blue(a, b, clip=False):
     arr += 0.3
     return arr
 
+
 def image_url_grid(grid):
     return [[_image_url(img) for img in line] for line in grid]
 
-def spatial_spatial_attr(img, filename,layer1, layer2, hint_label_1=None, hint_label_2=None, override=None):
-    hint1 = orange_blue(
-        raw_class_spatial_attr(img, layer1, hint_label_1, override=override),
-        raw_class_spatial_attr(img, layer1, hint_label_2, override=override),
-        clip=True
-    )
-    hint2 = orange_blue(
-        raw_class_spatial_attr(img, layer2, hint_label_1, override=override),
-        raw_class_spatial_attr(img, layer2, hint_label_2, override=override),
-        clip=True
-    )
 
-    attrs = raw_spatial_spatial_attr(img, layer1, layer2, override=override)
-    attrs = attrs / attrs.max()
-
-    with open('result/'+filename+'.html', 'a') as f:
+def spatial_spatial_attr(imglist, filenamelist, layer1, layer2, hint_label_1=None, hint_label_2=None, override=None):
+    filename = ''
+    for f in filenamelist:
+        filename += f
+    with open('result/' + filename + '.html', 'a') as f:
         f.write('''<!DOCTYPE html>
-                    <html>
-                    <head >
-                      <title>My first Svelte app</title>
-                          <script src='SpatialWidget_141d66.js'></script>
-                    </head>
-                    <body>
-                      <main></main>
-                      <h1>RAR</h1>
-                      <script>
-                        var app = new SpatialWidget_141d66({
-                          target: document.querySelector( 'main' ),''')
-        f.write('''      data: {
-          "layer2": "''' + layer2 + '''",
-          "layer1": "''' + layer1 + '''",''')
-        f.write('"spritemap1"' + ":" + str(image_url_grid(attrs)) + ',\n')
-        f.write('"spritemap2"' + ":" + str(image_url_grid(attrs.transpose(2, 3, 0, 1))) + ',\n')
-        f.write('"size1"' + ":" + str(attrs.shape[3]) + ',\n')
-        f.write('"size2"' + ":" + str(attrs.shape[0]) + ',\n')
-        f.write('"img"' + ":" + '"' + str(_image_url(img)) + '"' + ',\n')
-        f.write('"hint1"' + ":" + '"' + str(_image_url(hint1)) + '"' + ',\n')
-        f.write('"hint2"' + ":" + '"' + str(_image_url(hint2)) + '"' + '\n')
-        f.write('''} });''')
-        f.write('''</script>
-                </body>
-                </html>''')
+                          <html>
+                          <head >
+                            <title>%s</title>
+                                <script src='GroupWidget_1cb0e0d.js'></script>
+                          </head>
+                          <body>''' % (filename))
+    for key, img in enumerate(imglist):
+        hint1 = orange_blue(
+            raw_class_spatial_attr(img, layer1, hint_label_1, override=override),
+            raw_class_spatial_attr(img, layer1, hint_label_2, override=override),
+            clip=True
+        )
+        hint2 = orange_blue(
+            raw_class_spatial_attr(img, layer2, hint_label_1, override=override),
+            raw_class_spatial_attr(img, layer2, hint_label_2, override=override),
+            clip=True
+        )
 
-img = load('rar.png')
-img = img[:,:,:3]
-filename='rar'
-spatial_spatial_attr(img,filename  , "mixed3a", "mixed5a", hint_label_1="racket")
+        attrs = raw_spatial_spatial_attr(img, layer1, layer2, override=override)
+        attrs = attrs / attrs.max()
+
+        with open('result/' + filename + '.html', 'a') as f:
+            f.write('''  <main%s></main%s>
+                <script>
+                  var app = new GroupWidget_1cb0e0d({
+                    target: document.querySelector( 'main%s' ),''' % (key, key, key))
+            f.write('''      data: {
+              "layer2": "''' + layer2 + '''",
+              "layer1": "''' + layer1 + '''",''')
+            f.write('"spritemap1"' + ":" + str(image_url_grid(attrs)) + ',\n')
+            f.write('"spritemap2"' + ":" + str(image_url_grid(attrs.transpose(2, 3, 0, 1))) + ',\n')
+            f.write('"size1"' + ":" + str(attrs.shape[3]) + ',\n')
+            f.write('"size2"' + ":" + str(attrs.shape[0]) + ',\n')
+            f.write('"img"' + ":" + '"' + str(_image_url(img)) + '"' + ',\n')
+            f.write('"hint1"' + ":" + '"' + str(_image_url(hint1)) + '"' + ',\n')
+            f.write('"hint2"' + ":" + '"' + str(_image_url(hint2)) + '"' + '\n')
+            f.write('''} });''')
+            f.write('''</script>''')
+
+    with open('result/' + filename + '.html', 'a') as f:
+        f.write('''</body></html >''')
+    print(filename)
+
+
+filename = 'rar'
+imglist = []
+filenamelist = []
+img = load("rar.png")
+img = img[:, :, :3]
+imglist.append(img)
+filenamelist.append(filename)
+spatial_spatial_attr(imglist, filenamelist, "mixed3a", "mixed5a", hint_label_1="racket")
 print("\nHover on images to interact! :D\n")
