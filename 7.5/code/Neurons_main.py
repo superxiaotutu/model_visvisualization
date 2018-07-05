@@ -153,7 +153,7 @@ def download():
             res.raw.decode_content = True
             if res.status_code == 200:
                 print(i)
-                with open('../sources/' + str(i) + '.jpg', 'wb+') as image_f:
+                with open('../sources/' + str(i) + '.jpg', 'wb') as image_f:
                     image_f.write(res.content)
 
 
