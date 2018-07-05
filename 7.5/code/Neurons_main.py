@@ -163,7 +163,7 @@ if __name__ == '__main__':
             print(f)
             img = load('../sources/' + f)
             img = img[:, :, 0:3]
-            neuron_groups(img, str(index), "mixed5a", 2, ["ibex"], filenumber=0)
+            neuron_groups(img, str(index), "mixed5a", 2, ["Persian_cat"], filenumber=0)
             break
 
 
