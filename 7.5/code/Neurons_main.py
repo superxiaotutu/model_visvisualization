@@ -14,6 +14,7 @@ import lucid.optvis.objectives as objectives
 import lucid.optvis.render as render
 from lucid.misc.io import show, load
 from lucid.misc.io.reading import read
+from lucid.misc.io.serialize_array import serialize_array
 from lucid.misc.io.showing import _image_url
 from lucid.misc.gradient_override import gradient_override_map
 import os
@@ -47,8 +48,14 @@ def raw_class_group_attr(img, layer, label, group_vecs, override=None, ):
         # Linear approximation of effect of spatial position
         return [np.sum(group_vec * grad) for group_vec in group_vecs]
 
-
-#
+def to_image_url(array, fmt='png', mode="data", quality=70, domain=None):
+  supported_modes = ("data")
+  if mode not in supported_modes:
+    message = "Unsupported mode '%s', should be one of '%s'."
+    raise ValueError(message, mode, supported_modes)
+  image_data = serialize_array(array, fmt=fmt, quality=quality)
+  base64_byte_string = base64.b64encode(image_data).decode('ascii')
+  return base64_byte_string
 def neuron_groups(img, filename, layer, n_groups=10, attr_classes=None, filenumber=0):
     # Compute activations
     dirname = '../images/' + filename+'/'
@@ -102,11 +109,11 @@ def neuron_groups(img, filename, layer, n_groups=10, attr_classes=None, filenumb
         with open(dirname + '/attrs.txt', 'w') as f_w:
             f_w.write(str(attrs))
         for index, icon in enumerate(group_icons):
-            print(icon.replace('data:image/PNG;base64,','').replace('',''))
-
-            imgdata = base64.b64decode(icon)
-            with open(dirname + str(index) + '.jpg', 'wb') as f_jpg:
-                print(imgdata)
+            imgdata=to_image_url(icon)
+            print(imgdata)
+            imgdata = base64.b64decode(str(imgdata))
+            print(imgdata)
+            with open(dirname + str(index) + '.png', 'wb') as f_jpg:
                 f_jpg.write(imgdata)
                 # with open(dirname+'' + '.html', 'w') as f:
                 #     f.write('''<!DOCTYPE html>
