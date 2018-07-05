@@ -1,3 +1,5 @@
+import base64
+
 import cv2
 import numpy as np
 import requests
@@ -47,9 +49,9 @@ def raw_class_group_attr(img, layer, label, group_vecs, override=None, ):
 
 
 #
-def neuron_groups(img, filename, layer, n_groups=6, attr_classes=None, filenumber=0):
+def neuron_groups(img, filename, layer, n_groups=10, attr_classes=None, filenumber=0):
     # Compute activations
-
+    dirname = '../images/' + filename+'/'
     if attr_classes is None:
         attr_classes = []
     with tf.Graph().as_default(), tf.Session():
@@ -90,41 +92,49 @@ def neuron_groups(img, filename, layer, n_groups=6, attr_classes=None, filenumbe
     print(
         attrs
     )
-
-    # Let's render the visualization!
     try:
-        os.mkdir('../images/' + filename)
+        os.mkdir(dirname )
 
     except Exception as e:
         print(e)
+    # Let's render the visualization!
     finally:
-        with open('../images/' + filename + '/' + str(filenumber) + '.html', 'w') as f:
-            f.write('''<!DOCTYPE html>
-                        <html>
-                        <head >
-                        <h1>%s </h1>
-                          <title>特征可视化</title>
-                              <script src='GroupWidget_1cb0e0d.js'></script>
-                        </head>
-                        <body>
-                          <main></main>
-                          <h1>laogewenle </h1>
-                          <script>
-                            var app = new GroupWidget_1cb0e0d({
-                              target: document.querySelector( 'main' ),''' % filename)
-            f.write('''      data: {
-             ''')
-            f.write('"img"' + ':"' + str(_image_url(img)) + '",\n')
+        with open(dirname + '/attrs.txt', 'w') as f_w:
+            f_w.write(str(attrs))
+        for index, icon in enumerate(group_icons):
+            print(icon.replace('data:image/PNG;base64,','').replace('',''))
 
-            f.write('"n_groups"' + ":" + str(n_groups) + ',\n')
-            f.write('"spatial_factors"' + ":" + str(
-                [_image_url(factor[..., None] / np.percentile(spatial_factors, 99) * [1, 0, 0]) for factor in
-                 spatial_factors]) + ',\n')
-            f.write('"group_icons"' + ":" + str([_image_url(icon) for icon in group_icons]) + ',\n')
-            f.write('''} });''')
-            f.write('''</script>
-                    </body>
-                    </html>''')
+            imgdata = base64.b64decode(icon)
+            with open(dirname + str(index) + '.jpg', 'wb') as f_jpg:
+                print(imgdata)
+                f_jpg.write(imgdata)
+                # with open(dirname+'' + '.html', 'w') as f:
+                #     f.write('''<!DOCTYPE html>
+                #                 <html>
+                #                 <head >
+                #                 <h1>%s </h1>
+                #                   <title>特征可视化</title>
+                #                       <script src='GroupWidget_1cb0e0d.js'></script>
+                #                 </head>
+                #                 <body>
+                #                   <main></main>
+                #                   <h1>laogewenle </h1>
+                #                   <script>
+                #                     var app = new GroupWidget_1cb0e0d({
+                #                       target: document.querySelector( 'main' ),''' % filename)
+                #     f.write('''      data: {
+                #      ''')
+                #     f.write('"img"' + ':"' + str(_image_url(img)) + '",\n')
+                #
+                #     f.write('"n_groups"' + ":" + str(n_groups) + ',\n')
+                #     f.write('"spatial_factors"' + ":" + str(
+                #         [_image_url(factor[..., None] / np.percentile(spatial_factors, 99) * [1, 0, 0]) for factor in
+                #          spatial_factors]) + ',\n')
+                #     f.write('"group_icons"' + ":" + str([_image_url(icon) for icon in group_icons]) + ',\n')
+                #     f.write('''} });''')
+                #     f.write('''</script>
+                #             </body>
+                #             </html>''')
 
 
 def download():
@@ -138,14 +148,15 @@ def download():
                 print(i)
                 with open('../sources/' + str(i) + '.jpg', 'wb+') as image_f:
                     image_f.write(res.content)
+
+
 if __name__ == '__main__':
     for roots, dirs, files in os.walk('../sources'):
-        for f in files:
+        for index, f in enumerate(files):
             print(f)
-            img = load('../sources/'+f)
-            filename = 'persian_cat'
+            img = load('../sources/' + f)
             img = img[:, :, 0:3]
-            neuron_groups(img, filename, "mixed5a", 2, ["Persian_cat"], filenumber=0)
+            neuron_groups(img, str(index), "mixed5a", 2, ["ibex"], filenumber=0)
             break
 
 
