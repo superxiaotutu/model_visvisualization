@@ -158,6 +158,7 @@ def download():
 
 
 if __name__ == '__main__':
+    download()
     for roots, dirs, files in os.walk('../sources'):
         for index, f in enumerate(files):
             print(f)
