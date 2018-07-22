@@ -158,21 +158,22 @@ def download():
 
 
 if __name__ == '__main__':
-    download()
-    for roots, dirs, files in os.walk('../sources'):
-        for index, f in enumerate(files):
-            print(f)
-            img = load('../sources/' + f)
-            img = img[:, :, 0:3]
-            neuron_groups(img, str(index), "mixed5a", 2, ["Persian_cat"], filenumber=0)
-            break
+    # download()
+    # for roots, dirs, files in os.walk('../sources'):
+    #     for index, f in enumerate(files):
+    #         print(f)
+    #         img = load('../sources/' + f)
+    #         img = img[:, :, 0:3]
+    #         neuron_groups(img, str(index), "mixed5a", 2, ["Persian_cat"], filenumber=0)
+    #         break
+    for roots  in range(1,20):
 
 
-# img = load("rar.png")
-# filename='tutu'
-# img = img[:,:,0:3]
-# neuron_groups(img, filename, "mixed5a", 2, ["guacamole"],filenumber=0)
-
+    img = load("test.jpg")
+    # filename='tutu'
+    # img = img[:,:,0:3]
+    # neuron_groups(img, filename, "mixed5a", 2, ["guacamole"],filenumber=0)
+    print('x01qwe3赖美云 https://www.duweas.com/laimeiyun/')
 
 # 4d
 # tabby
