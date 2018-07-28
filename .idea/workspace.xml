@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a6e6cec9-e988-451b-acf2-ef55d3345c17" name="Default" comment="init">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/convname" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/0.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/1.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/10.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/11.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/12.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/13.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/14.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/15.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/16.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/17.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/3.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/4.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/5.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/6.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/7.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/8.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/output/9.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/results.html" />
+    <list default="true" id="a6e6cec9-e988-451b-acf2-ef55d3345c17" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tongji/results.html" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/echarts.py" afterPath="$PROJECT_DIR$/tongji/echarts.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/0.html" afterPath="$PROJECT_DIR$/tongji/output/0.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/1.html" afterPath="$PROJECT_DIR$/tongji/output/1.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/10.html" afterPath="$PROJECT_DIR$/tongji/output/10.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/11.html" afterPath="$PROJECT_DIR$/tongji/output/11.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/12.html" afterPath="$PROJECT_DIR$/tongji/output/12.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/13.html" afterPath="$PROJECT_DIR$/tongji/output/13.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/14.html" afterPath="$PROJECT_DIR$/tongji/output/14.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/15.html" afterPath="$PROJECT_DIR$/tongji/output/15.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/16.html" afterPath="$PROJECT_DIR$/tongji/output/16.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/17.html" afterPath="$PROJECT_DIR$/tongji/output/17.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/2.html" afterPath="$PROJECT_DIR$/tongji/output/2.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/3.html" afterPath="$PROJECT_DIR$/tongji/output/3.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/4.html" afterPath="$PROJECT_DIR$/tongji/output/4.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/5.html" afterPath="$PROJECT_DIR$/tongji/output/5.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/6.html" afterPath="$PROJECT_DIR$/tongji/output/6.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/7.html" afterPath="$PROJECT_DIR$/tongji/output/7.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/8.html" afterPath="$PROJECT_DIR$/tongji/output/8.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/output/9.html" afterPath="$PROJECT_DIR$/tongji/output/9.html" />
     </list>
     <ignored path="model_visvisualization.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,7 +36,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/model_visvisualization$echarts.coverage" NAME="echarts Coverage Results" MODIFIED="1532755342072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tongji" />
+    <SUITE FILE_PATH="coverage/model_visvisualization$echarts.coverage" NAME="echarts Coverage Results" MODIFIED="1532765121813" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tongji" />
     <SUITE FILE_PATH="coverage/model_visvisualization$main.coverage" NAME="main Coverage Results" MODIFIED="1530784877848" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/neurons/result" />
     <SUITE FILE_PATH="coverage/model_visvisualization$Neurons_main__1_.coverage" NAME="Neurons_main (1) Coverage Results" MODIFIED="1532753607155" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/7.5/code" />
     <SUITE FILE_PATH="coverage/model_visvisualization$Neurons_main.coverage" NAME="Neurons_main Coverage Results" MODIFIED="1528535033254" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/neurons" />
@@ -54,8 +53,8 @@
       <file leaf-file-name="echarts.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tongji/echarts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="13" column="18" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="18" />
+            <state relative-caret-position="216">
+              <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
               </folding>
@@ -71,6 +70,16 @@
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="convname" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tongji/convname">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="17" selection-end-column="36" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -619,7 +628,14 @@
       <option name="project" value="LOCAL" />
       <updated>1532753573518</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="init">
+      <created>1532755434970</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1532755434970</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -635,7 +651,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32827735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32792208" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -846,14 +862,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tongji/convname">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="18" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tongji/tongji.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="243">
@@ -871,13 +879,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tongji/render.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="571" column="90" selection-start-line="571" selection-start-column="58" selection-end-line="571" selection-end-column="90" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/tongji/render.html" />
     <entry file="file://H:/anaconda/Lib/site-packages/pyecharts/base.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="305">
@@ -889,6 +891,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="50">
           <caret line="2" column="6" selection-start-line="0" selection-start-column="0" selection-end-line="295" selection-end-column="7" />
+          <folding>
+            <element signature="n#script#0;n#head#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -902,10 +907,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tongji/convname">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="17" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tongji/echarts.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="13" column="18" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="18" />
+        <state relative-caret-position="216">
+          <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
           </folding>
