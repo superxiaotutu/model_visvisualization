@@ -1,10 +1,9 @@
 from pyecharts import Scatter
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-v1 = [10,10]
-v2 = [60,20]
-scatter = Scatter("散点图示例")
-extra_name=['a','b','a','b','a','b']
-scatter.add('b', v1, v2 ,is_datazoom_show =True,is_legend_show=False,mark_point=['max', 'min'])
-scatter.add('a', v1, v2 ,is_datazoom_show =True,is_legend_show=False,mark_point=['max', 'min'])
-
-scatter.render()
+import numpy as np
+print(np.arange(1, 1001, 1))
+a=sns.barplot(y=['tench,-Tinca-tinca'], x=[1], orient='h')
+plt.show()
+print(a)

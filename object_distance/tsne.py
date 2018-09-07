@@ -5,7 +5,7 @@ from sklearn.decomposition import PCA
 from mpl_toolkits.mplot3d import Axes3D
 from pyecharts import Scatter
 
-X = np.load("model_feature.npy")
+X = np.load("image_feature.npy")
 
 # X = np.zeros([1000, 1000])
 #
@@ -40,4 +40,4 @@ with open('V3_namelist.txt', 'r') as f:
         x.append(X_2d[index, 0])
         y.append(X_2d[index, 1])
         scatter.add(f, x, y, is_datazoom_show=True, is_legend_show=False, is_splitline_show=False)
-    scatter.render(path='TSNE_object_distance.html')
+    scatter.render(path='image_tsne_object_distance.html')
