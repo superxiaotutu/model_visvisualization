@@ -108,8 +108,6 @@ def get_new_img(front_path, back_path, anns):
         # 把前景的原图片图片乘以标记部分为1的矩阵，得到只有标记部分的图片
         front_img = np.asarray(Image.open(front_path))
         new_front_img = front_img * mask_front_all1
-        plt.imshow(new_front_img)
-        plt.show()
 
         # 把扣掉标签的背景图片加上只有标记部分的图片
         new_back_img = Image.open(mask_back_file)
