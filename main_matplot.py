@@ -144,23 +144,30 @@ cnames = \
         '#F5F5F5',
         '#FFFF00',
         '#9ACD32']
-model_names = ["GD","FGSM","deepfool","BFGS"]
-for model_name in model_names:
-    data = np.load(model_name + '_grad_data_all.npy')
-    x_arr = []
-    y_arr = []
-    print(data.shape)
+model_names = ["GD", "FGSM", "deepfool", "BFGS"]
+# for model_name in model_names:
+#     data = np.load(model_name + '_grad_data_all.npy')
+#     x_arr = []
+#     y_arr = []
+#     print(data.shape)
+#
+#     for x_index in range(17, data.shape[2]):
+#         for index in range(0, data.shape[0], 500):
+#             num = 0
+#             coor_x = list(data[index][0][x_index])
+#             coor_y = list(data[index][1][x_index])
+#             for i, j in zip(coor_x, coor_y):
+#                 plt.scatter(i, j, c=cnames[num])
+#                 num += 1
+#             print(index)
+#         plt.savefig(model_name + "_123" + str(x_index) + ".png")
+#         # plt.show()
+#         plt.close()
+data = np.array([[1, 1, 2], [0, 0, 0], [1, 2, 3]])
 
-    for x_index in range(17, data.shape[2]):
-        for index in range(0, data.shape[0], 500):
-            num = 0
-            coor_x = list(data[index][0][x_index])
-            coor_y = list(data[index][1][x_index])
-            for i, j in zip(coor_x, coor_y):
-                plt.scatter(i, j, c=cnames[num])
-                num += 1
-            print(index)
-        plt.savefig(model_name + "_123" + str(x_index) + ".png")
-        # plt.show()
-        plt.close()
+data=np.where(data != [0, 0, 0], [1, 1, 1], [0, 0, 0])
+print(data)
+# plt.imshow(data)
+# plt.show()
+x=[1,2,3,4,6,9,4,2,3]
 
