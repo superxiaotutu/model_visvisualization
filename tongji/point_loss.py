@@ -9,7 +9,7 @@ y_arr1 = []
 count_y=0
 count_x=0
 plt.figure(111,(1000,1000))
-for i in range(count):
+for i in range(100):
     record = data.iloc[[i]]
     true = record[1]
     ori = record[2]
@@ -24,6 +24,6 @@ for i in range(count):
         x_arr1.append(float(true - ori))
         y_arr1.append(float(ori - adv))
 print(count_y,count_x)
-plt.scatter(x_arr1,y_arr1,color='r')
-plt.scatter(x_arr,y_arr,color='b')
+plt.scatter(x_arr1,y_arr1,color='r',alpha=0.4)
+plt.scatter(x_arr,y_arr,color='b',alpha=0.4)
 plt.show()
