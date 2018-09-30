@@ -1,17 +1,29 @@
 import pandas
-from pyecharts import Scatter
-
-data=pandas.read_csv('out.csv',header=None,sep=',')
-count=int(data.count()[0])
-bar = Scatter('scatter', 'scatter', width=2100, height=1200, )
-x_arr=[]
-y_arr=[]
-for i in range(count) :
+import matplotlib.pyplot as plt
+data = pandas.read_csv('out.csv', header=None, sep=',')
+count = int(data.count()[0])
+x_arr = []
+y_arr = []
+x_arr1 = []
+y_arr1 = []
+count_y=0
+count_x=0
+plt.figure(111,(1000,1000))
+for i in range(count):
     record = data.iloc[[i]]
-    true=record[1]
-    ori=record[2]
-    adv=record[3]
-    x_arr.append(true-ori)
-    y_arr.append(ori-adv)
-bar.add('scatter',x_arr,y_arr)
-bar.render('loss.html')
+    true = record[1]
+    ori = record[2]
+    adv = record[3]
+    yes = record[5].iloc[0]
+    if str(yes) == 'Yes':
+        count_y+=1
+        x_arr.append(float(true - ori))
+        y_arr.append(float(ori - adv))
+    else:
+        count_x+=1
+        x_arr1.append(float(true - ori))
+        y_arr1.append(float(ori - adv))
+print(count_y,count_x)
+plt.scatter(x_arr1,y_arr1,color='r')
+plt.scatter(x_arr,y_arr,color='b')
+plt.show()
