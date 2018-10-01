@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/tongji/point_loss.py" line="65" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="a6e6cec9-e988-451b-acf2-ef55d3345c17" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tongji/Figure_111.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tongji/point_loss.py" afterPath="$PROJECT_DIR$/tongji/point_loss.py" />
     </list>
@@ -24,7 +29,7 @@
     <SUITE FILE_PATH="coverage/model_visvisualization$test_json.coverage" NAME="test_json Coverage Results" MODIFIED="1537196152676" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cvpr_diff_loss" />
     <SUITE FILE_PATH="coverage/model_visvisualization$tsne.coverage" NAME="tsne Coverage Results" MODIFIED="1536133144947" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/object_distance" />
     <SUITE FILE_PATH="coverage/model_visvisualization$Neurons_main__1_.coverage" NAME="Neurons_main (1) Coverage Results" MODIFIED="1532753607155" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/7.5/code" />
-    <SUITE FILE_PATH="coverage/model_visvisualization$point_loss.coverage" NAME="point_loss Coverage Results" MODIFIED="1538280577247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tongji" />
+    <SUITE FILE_PATH="coverage/model_visvisualization$point_loss.coverage" NAME="point_loss Coverage Results" MODIFIED="1538289152210" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tongji" />
     <SUITE FILE_PATH="coverage/model_visvisualization$Neurons_main.coverage" NAME="Neurons_main Coverage Results" MODIFIED="1528535033254" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/neurons" />
     <SUITE FILE_PATH="coverage/model_visvisualization$main_scatter.coverage" NAME="main_scatter Coverage Results" MODIFIED="1534842537846" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/model_visvisualization$test.coverage" NAME="test Coverage Results" MODIFIED="1536125988193" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/object_distance" />
@@ -41,32 +46,11 @@
       <file leaf-file-name="point_loss.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tongji/point_loss.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
+            <state relative-caret-position="453">
+              <caret line="40" column="37" selection-start-line="40" selection-start-column="37" selection-end-line="40" selection-end-column="37" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <marker date="1538280577196" expanded="true" signature="775:776" ph="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="scatter.py" pinned="false" current-in-tab="false">
-        <entry file="file://H:/anaconda/Lib/site-packages/pyecharts/charts/scatter.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1794">
-              <caret line="71" column="11" selection-start-line="71" selection-start-column="11" selection-end-line="71" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="echarts.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tongji/echarts.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1118">
-              <caret line="46" column="64" selection-start-line="46" selection-start-column="10" selection-end-line="46" selection-end-column="64" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -135,7 +119,7 @@
     <option name="width" value="1924" />
     <option name="height" value="1056" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -161,7 +145,6 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -196,6 +179,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -206,19 +190,19 @@
     <property name="js-jscs-nodeInterpreter" value="D:\nodejs10\node.exe" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="H:\model_visvisualization\tongji" />
+      <recent name="H:\model_visvisualization\cvpr_diff_loss" />
+      <recent name="H:\model_visvisualization\object_distance" />
+      <recent name="H:\model_visvisualization" />
+      <recent name="H:\model_visvisualization\7.5\code" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="H:\model_visvisualization\cvpr_diff_loss" />
       <recent name="H:\model_visvisualization\tongji\ " />
       <recent name="H:\model_visvisualization\tongji\output" />
       <recent name="H:\model_visvisualization\7.5\code" />
       <recent name="H:\model_visvisualization" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="H:\model_visvisualization\cvpr_diff_loss" />
-      <recent name="H:\model_visvisualization\object_distance" />
-      <recent name="H:\model_visvisualization\tongji" />
-      <recent name="H:\model_visvisualization" />
-      <recent name="H:\model_visvisualization\7.5\code" />
     </key>
   </component>
   <component name="RunManager" selected="Python.point_loss">
@@ -720,7 +704,14 @@
       <option name="project" value="LOCAL" />
       <updated>1538278945421</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="init">
+      <created>1538280593669</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1538280593669</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -736,20 +727,20 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25135428" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32827735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25135428" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32827735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -777,7 +768,7 @@
           <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="10" />
+      <option name="time" value="12" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1049,36 +1040,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tongji/echarts.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1118">
-          <caret line="46" column="64" selection-start-line="46" selection-start-column="10" selection-end-line="46" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://H:/anaconda/Lib/site-packages/pyecharts/charts/scatter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1794">
+        <state relative-caret-position="610">
           <caret line="71" column="11" selection-start-line="71" selection-start-column="11" selection-end-line="71" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://H:/anaconda/Lib/site-packages/numpy/core/fromnumeric.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-92">
+          <caret line="1720" column="24" selection-start-line="1720" selection-start-column="19" selection-end-line="1720" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tongji/echarts.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="610">
-          <caret line="1651" column="0" selection-start-line="1651" selection-start-column="0" selection-end-line="1651" selection-end-column="0" />
+          <caret line="46" column="64" selection-start-line="46" selection-start-column="10" selection-end-line="46" selection-end-column="64" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tongji/point_loss.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
+        <state relative-caret-position="453">
+          <caret line="40" column="37" selection-start-line="40" selection-start-column="37" selection-end-line="40" selection-end-column="37" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <marker date="1538280577196" expanded="true" signature="775:776" ph="..." />
           </folding>
         </state>
       </provider>
