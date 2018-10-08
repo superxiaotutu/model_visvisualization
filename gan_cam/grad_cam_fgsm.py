@@ -9,11 +9,13 @@ import PIL
 import numpy as np
 import json
 import matplotlib.pyplot as plt
-
+import os
+os.environ["CUDA_VISIBLE"] = "1"
 plt.switch_backend('agg')
 
 sess = tf.InteractiveSession()
 image = tf.Variable(tf.zeros((299, 299, 3)))
+
 
 
 # 加载inceptionV
@@ -63,8 +65,6 @@ def classify(img, correct_class=None, target_class=None):
                rotation='vertical')
     fig.subplots_adjust(bottom=0.2)
     plt.close()
-
-
 # 进攻
 def step_target_class_adversarial_images(x, eps, one_hot_target_class):
     logits, _, end_points = inception(x, reuse=True)
@@ -188,31 +188,33 @@ def get_gard_cam(img_path, img_class, demo_target):
     # initialization step
     """"""
     # FGSM攻击
-    # FGSM_adv = stepll_adversarial_images(x_hat, 0.30)
-    # adv = sess.run(FGSM_adv)
+
+    FGSM_adv = stepll_adversarial_images(x_hat, 0.30)
+    adv = sess.run(FGSM_adv)
     sess.run(assign_op, feed_dict={x: img})
-    for i in range(demo_steps):
-        # gradient descent step
-        _, loss_value = sess.run(
-            [optim_step, loss],
-            feed_dict={learning_rate: demo_lr, y_hat: demo_target})
-        # project step
-        sess.run(project_step, feed_dict={x: img, epsilon: demo_epsilon})
-        if (i + 1) % 10 == 0:
-            print('step %d, loss=%g' % (i + 1, loss_value))
-    adv = x_hat.eval()  # retrieve the adversarial example
+    # for i in range(demo_steps):
+    #     # gradient descent step
+    #     _, loss_value = sess.run(
+    #         [optim_step, loss],
+    #         feed_dict={learning_rate: demo_lr, y_hat: demo_target})
+    #     # project step
+    #     sess.run(project_step, feed_dict={x: img, epsilon: demo_epsilon})
+    #     if (i + 1) % 10 == 0:
+    #         print('step %d, loss=%g' % (i + 1, loss_value))
+    # adv = x_hat.eval()  # retrieve the adversarial example
     """"""
 
     # 展示攻击后的图像
     classify(adv, correct_class=img_class)
     # 展示攻击后的图像的激活区域
     adv_gard_cam = grad_cam(adv, end_point, img_class)
+
     return img, rar_gard_cam, adv_gard_cam
 
 
 if __name__ == '__main__':
     labels_file = 'imagenet_labels.txt'
-    results_file = 'grad_result.txt'
+    results_file = 'grad_result_fgsm.txt'
     if os._exists(results_file):
         os.remove(results_file)
     with open(labels_file, 'r')as f:
@@ -230,7 +232,8 @@ if __name__ == '__main__':
                     img_path = dir_name + '/' + file
                     try:
                         img, rar_gard_cam, adv_gard_cam = get_gard_cam(img_path, img_class, demo_target)
-                    except:
+                    except Exception as e :
+                        print(e)
                         continue
                     rar_count, adv_count, IOU = get_count_IOU(rar_gard_cam, adv_gard_cam)
                     print(index)

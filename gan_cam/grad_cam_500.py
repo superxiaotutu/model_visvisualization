@@ -212,15 +212,15 @@ def get_gard_cam(img_path, img_class, demo_target):
 
 if __name__ == '__main__':
     labels_file = 'imagenet_labels.txt'
-    results_file = 'grad_result.txt'
+    results_file = 'grad_result_500.txt'
     if os._exists(results_file):
         os.remove(results_file)
     with open(labels_file, 'r')as f:
         lines = f.readlines()
-        for index, line in enumerate(lines):
+        for index, line in enumerate(lines[500:]):
             label_letter = line.split(' ')
             label_letter = label_letter[0]
-            img_class = index
+            img_class = index+500
             demo_target = random.randint(0,998)
             if demo_target == img_class:
                 demo_target = random.randint(0, 998)
