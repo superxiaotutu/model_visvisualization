@@ -10,7 +10,7 @@ import numpy as np
 import json
 import matplotlib.pyplot as plt
 import os
-os.environ["CUDA_VISIBLE"] = "1,2,3"
+os.environ["CUDA_VISIBLE"] = "2,3"
 plt.switch_backend('agg')
 
 sess = tf.InteractiveSession()
@@ -125,6 +125,7 @@ def grad_cam(x, end_point, pre_calss, layer_name='Mixed_7c', num_class=1000):
     cam = cam / np.max(cam)
 
     #    cam = resize(cam, (299, 299))
+    print(np.sign(cam))
     # Converting grayscale to 3-D
     # cam3 = np.expand_dims(cam, axis=2)
     # cam3 = np.tile(cam3, [1, 1, 3])
@@ -182,6 +183,7 @@ def get_gard_cam(img_path, img_class, demo_target):
     FGSM_adv = stepll_adversarial_images(x_hat, 0.30)
     sess.run(assign_op, feed_dict={x: img})
     adv = sess.run(FGSM_adv)
+
     # for i in range(demo_steps):
     #     # gradient descent step
     #     _, loss_value = sess.run(
