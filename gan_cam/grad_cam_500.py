@@ -127,27 +127,18 @@ def grad_cam(x, end_point, pre_calss, layer_name='Mixed_7c', num_class=1000):
     #    cam = resize(cam, (299, 299))
 
     # Converting grayscale to 3-D
-    cam3 = np.expand_dims(cam, axis=2)
-    cam3 = np.tile(cam3, [1, 1, 3])
+    # cam3 = np.expand_dims(cam, axis=2)
+    # cam3 = np.tile(cam3, [1, 1, 3])
     # plt.imshow(cam3)
     # plt.show()
-    return np.sign(cam3)
+    return np.sign(cam)
 
 
 def get_count_IOU(rar, adv):
-    rar_count = 0
-    adv_count = 0
-    inter_count = 0
-    for i in range(8):
-        for j in range(8):
-            if adv[i][j].all() == 1:
-                adv_count += 1
-            if rar[i][j].all() == 1:
-                rar_count += 1
-                if rar[i][j].all() == adv[i][j].all():
-                    inter_count += 1
-    IOU = inter_count / (adv_count + rar_count)
-
+    rar_count = rar[rar==1].size
+    adv_count = adv[adv==1].size
+    sum=rar+adv
+    IOU = sum[sum == 2].size / sum[sum != 0].size
     return rar_count, adv_count, IOU
 
 
@@ -212,7 +203,7 @@ def get_gard_cam(img_path, img_class, demo_target):
 
 if __name__ == '__main__':
     labels_file = 'imagenet_labels.txt'
-    results_file = 'grad_result_500.txt'
+    results_file = 'result/grad_result_500.txt'
     if os._exists(results_file):
         os.remove(results_file)
     with open(labels_file, 'r')as f:
@@ -226,7 +217,7 @@ if __name__ == '__main__':
                 demo_target = random.randint(0, 998)
             dir_name = 'img_val/' + str(label_letter)
             for root, dirs, files in os.walk(dir_name):
-                for file in files:
+                for file in files[:5]:
                     img_path = dir_name + '/' + file
                     try:
                         img, rar_gard_cam, adv_gard_cam = get_gard_cam(img_path, img_class, demo_target)
