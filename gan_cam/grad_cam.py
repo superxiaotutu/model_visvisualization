@@ -16,6 +16,7 @@ sess = tf.InteractiveSession()
 image = tf.Variable(tf.zeros((299, 299, 3)))
 
 
+
 # 加载inceptionV
 def inception(image, reuse):
     preprocessed = tf.multiply(tf.subtract(tf.expand_dims(image, 0), 0.5), 2.0)
@@ -63,8 +64,6 @@ def classify(img, correct_class=None, target_class=None):
                rotation='vertical')
     fig.subplots_adjust(bottom=0.2)
     plt.close()
-
-
 # 进攻
 def step_target_class_adversarial_images(x, eps, one_hot_target_class):
     logits, _, end_points = inception(x, reuse=True)
@@ -99,13 +98,14 @@ def stepllnoise_adversarial_images(x, eps):
 
 # TODO
 # 重要代码，获取激活分布8*8
+conv_layer = end_point[layer_name]
+one_hot = tf.sparse_to_dense(pre_calss, [num_class], 1.0)
+signal = tf.multiply(end_point['Logits'][:, 1:], one_hot)
+loss = tf.reduce_mean(signal)
+grads = tf.gradients(loss, conv_layer)[0]
+norm_grads = tf.div(grads, tf.sqrt(tf.reduce_mean(tf.square(grads))) + tf.constant(1e-5))
+
 def grad_cam(x, end_point, pre_calss, layer_name='Mixed_7c', num_class=1000):
-    conv_layer = end_point[layer_name]
-    one_hot = tf.sparse_to_dense(pre_calss, [num_class], 1.0)
-    signal = tf.multiply(end_point['Logits'][:, 1:], one_hot)
-    loss = tf.reduce_mean(signal)
-    grads = tf.gradients(loss, conv_layer)[0]
-    norm_grads = tf.div(grads, tf.sqrt(tf.reduce_mean(tf.square(grads))) + tf.constant(1e-5))
     output, grads_val = sess.run([conv_layer, norm_grads], feed_dict={image: x})
     output = output[0]
     grads_val = grads_val[0]
@@ -124,8 +124,7 @@ def grad_cam(x, end_point, pre_calss, layer_name='Mixed_7c', num_class=1000):
     cam = np.maximum(cam, 0)
     cam = cam / np.max(cam)
 
-    #    cam = resize(cam, (299, 299))
-
+    # cam = resize(cam, (299, 299))
     # Converting grayscale to 3-D
     # cam3 = np.expand_dims(cam, axis=2)
     # cam3 = np.tile(cam3, [1, 1, 3])
@@ -140,9 +139,21 @@ def get_count_IOU(rar, adv):
     sum=rar+adv
     IOU = sum[sum == 2].size / sum[sum != 0].size
     return rar_count, adv_count, IOU
-    return rar_count, adv_count, IOU
 
-
+x = tf.placeholder(tf.float32, (299, 299, 3))
+x_hat = image  # our trainable adversarial input
+assign_op = tf.assign(x_hat, x)
+learning_rate = tf.placeholder(tf.float32, ())
+y_hat = tf.placeholder(tf.int32, ())
+labels = tf.one_hot(y_hat, 1000)
+loss = tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=[labels])
+optim_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss, var_list=[x_hat])
+epsilon = tf.placeholder(tf.float32, ())
+below = x - epsilon
+above = x + epsilon
+projected = tf.clip_by_value(tf.clip_by_value(x_hat, below, above), 0, 1)
+with tf.control_dependencies([projected]):
+    project_step = tf.assign(x_hat, projected)
 def get_gard_cam(img_path, img_class, demo_target):
     demo_epsilon = 2.0 / 255.0
     demo_lr = 0.1
@@ -156,51 +167,40 @@ def get_gard_cam(img_path, img_class, demo_target):
     img = (np.asarray(img) / 255.0).astype(np.float32)
 
     # 展示原分类图
-    classify(img, correct_class=img_class)
+    # classify(img, correct_class=img_class)
 
     # 获取原图激活区域
     rar_gard_cam = grad_cam(img, end_point, img_class)
 
     # 显示被进攻后和的激活区域
-    x = tf.placeholder(tf.float32, (299, 299, 3))
-    x_hat = image  # our trainable adversarial input
-    assign_op = tf.assign(x_hat, x)
-    learning_rate = tf.placeholder(tf.float32, ())
-    y_hat = tf.placeholder(tf.int32, ())
-    labels = tf.one_hot(y_hat, 1000)
-    loss = tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=[labels])
-    optim_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss, var_list=[x_hat])
-    epsilon = tf.placeholder(tf.float32, ())
-    below = x - epsilon
-    above = x + epsilon
-    projected = tf.clip_by_value(tf.clip_by_value(x_hat, below, above), 0, 1)
-    with tf.control_dependencies([projected]):
-        project_step = tf.assign(x_hat, projected)
+
 
     # initialization step
     """"""
     # FGSM攻击
-    # FGSM_adv = stepll_adversarial_images(x_hat, 0.30)
-    # adv = sess.run(FGSM_adv)
+
+    FGSM_adv = stepll_adversarial_images(x_hat, 0.30)
     sess.run(assign_op, feed_dict={x: img})
-    for i in range(demo_steps):
-        # gradient descent step
-        _, loss_value = sess.run(
-            [optim_step, loss],
-            feed_dict={learning_rate: demo_lr, y_hat: demo_target})
-        # project step
-        sess.run(project_step, feed_dict={x: img, epsilon: demo_epsilon})
-        if (i + 1) % 10 == 0:
-            print('step %d, loss=%g' % (i + 1, loss_value))
-    adv = x_hat.eval()  # retrieve the adversarial example
+    adv = sess.run(FGSM_adv)
+
+    # for i in range(demo_steps):
+    #     # gradient descent step
+    #     _, loss_value = sess.run(
+    #         [optim_step, loss],
+    #         feed_dict={learning_rate: demo_lr, y_hat: demo_target})
+    #     # project step
+    #     sess.run(project_step, feed_dict={x: img, epsilon: demo_epsilon})
+    #     if (i + 1) % 10 == 0:
+    #         print('step %d, loss=%g' % (i + 1, loss_value))
+    # adv = x_hat.eval()  # retrieve the adversarial example
     """"""
 
     # 展示攻击后的图像
-    classify(adv, correct_class=img_class)
+    # classify(adv, correct_class=img_class)
     # 展示攻击后的图像的激活区域
     adv_gard_cam = grad_cam(adv, end_point, img_class)
-    return img, rar_gard_cam, adv_gard_cam
 
+    return img, rar_gard_cam, adv_gard_cam
 
 if __name__ == '__main__':
     labels_file = 'imagenet_labels.txt'

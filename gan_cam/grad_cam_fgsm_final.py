@@ -9,9 +9,10 @@ import PIL
 import numpy as np
 import json
 import matplotlib.pyplot as plt
-import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "2,3"
+# os.environ["CUDA_VISIBLE_DEVICES"] = ""
+
 plt.switch_backend('agg')
+
 
 sess = tf.InteractiveSession()
 image = tf.Variable(tf.zeros((299, 299, 3)))
@@ -99,14 +100,18 @@ def stepllnoise_adversarial_images(x, eps):
 
 # TODO
 # 重要代码，获取激活分布8*8
-def grad_cam(x, end_point, pre_calss, layer_name='Mixed_7c', num_class=1000):
-    conv_layer = end_point[layer_name]
-    one_hot = tf.sparse_to_dense(pre_calss, [num_class], 1.0)
-    signal = tf.multiply(end_point['Logits'][:, 1:], one_hot)
-    loss = tf.reduce_mean(signal)
-    grads = tf.gradients(loss, conv_layer)[0]
-    norm_grads = tf.div(grads, tf.sqrt(tf.reduce_mean(tf.square(grads))) + tf.constant(1e-5))
-    output, grads_val = sess.run([conv_layer, norm_grads], feed_dict={image: x})
+layer_name='Mixed_7c'
+num_class=1000
+conv_layer = end_point[layer_name]
+pre_calss = tf.placeholder(tf.int32)
+one_hot = tf.sparse_to_dense(pre_calss, [num_class], 1.0)
+signal = tf.multiply(end_point['Logits'][:, 1:], one_hot)
+loss = tf.reduce_mean(signal)
+grads = tf.gradients(loss, conv_layer)[0]
+norm_grads = tf.div(grads, tf.sqrt(tf.reduce_mean(tf.square(grads))) + tf.constant(1e-5))
+
+def grad_cam(x, class_num):
+    output, grads_val = sess.run([conv_layer, norm_grads], feed_dict={image: x, pre_calss: class_num})
     output = output[0]
     grads_val = grads_val[0]
     weights = np.mean(grads_val, axis=(0, 1))  # [512]
@@ -124,8 +129,7 @@ def grad_cam(x, end_point, pre_calss, layer_name='Mixed_7c', num_class=1000):
     cam = np.maximum(cam, 0)
     cam = cam / np.max(cam)
 
-    #    cam = resize(cam, (299, 299))
-    print(np.sign(cam))
+    # cam = resize(cam, (299, 299))
     # Converting grayscale to 3-D
     # cam3 = np.expand_dims(cam, axis=2)
     # cam3 = np.tile(cam3, [1, 1, 3])
@@ -141,12 +145,27 @@ def get_count_IOU(rar, adv):
     IOU = sum[sum == 2].size / sum[sum != 0].size
     return rar_count, adv_count, IOU
 
+x = tf.placeholder(tf.float32, (299, 299, 3))
+x_hat = image  # our trainable adversarial input
+assign_op = tf.assign(x_hat, x)
+learning_rate = tf.placeholder(tf.float32, ())
+y_hat = tf.placeholder(tf.int32, ())
+labels = tf.one_hot(y_hat, 1000)
+loss = tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=[labels])
+optim_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss, var_list=[x_hat])
+epsilon = tf.placeholder(tf.float32, ())
+below = x - epsilon
+above = x + epsilon
+projected = tf.clip_by_value(tf.clip_by_value(x_hat, below, above), 0, 1)
+with tf.control_dependencies([projected]):
+    project_step = tf.assign(x_hat, projected)
+FGSM_adv = stepll_adversarial_images(x_hat, 0.30)
 
 def get_gard_cam(img_path, img_class, demo_target):
     demo_epsilon = 2.0 / 255.0
     demo_lr = 0.1
     demo_steps = 100
-    img = PIL.Image.open(img_path)
+    img = PIL.Image.open(img_path).convert('RGB')
     big_dim = max(img.width, img.height)
     wide = img.width > img.height
     new_w = 299 if not wide else int(img.width * 299 / img.height)
@@ -155,32 +174,18 @@ def get_gard_cam(img_path, img_class, demo_target):
     img = (np.asarray(img) / 255.0).astype(np.float32)
 
     # 展示原分类图
-    classify(img, correct_class=img_class)
+    # classify(img, correct_class=img_class)
 
     # 获取原图激活区域
-    rar_gard_cam = grad_cam(img, end_point, img_class)
+    rar_gard_cam = grad_cam(img, img_class)
 
     # 显示被进攻后和的激活区域
-    x = tf.placeholder(tf.float32, (299, 299, 3))
-    x_hat = image  # our trainable adversarial input
-    assign_op = tf.assign(x_hat, x)
-    learning_rate = tf.placeholder(tf.float32, ())
-    y_hat = tf.placeholder(tf.int32, ())
-    labels = tf.one_hot(y_hat, 1000)
-    loss = tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=[labels])
-    optim_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss, var_list=[x_hat])
-    epsilon = tf.placeholder(tf.float32, ())
-    below = x - epsilon
-    above = x + epsilon
-    projected = tf.clip_by_value(tf.clip_by_value(x_hat, below, above), 0, 1)
-    with tf.control_dependencies([projected]):
-        project_step = tf.assign(x_hat, projected)
+
 
     # initialization step
     """"""
     # FGSM攻击
 
-    FGSM_adv = stepll_adversarial_images(x_hat, 0.30)
     sess.run(assign_op, feed_dict={x: img})
     adv = sess.run(FGSM_adv)
 
@@ -197,16 +202,18 @@ def get_gard_cam(img_path, img_class, demo_target):
     """"""
 
     # 展示攻击后的图像
-    classify(adv, correct_class=img_class)
+    # classify(adv, correct_class=img_class)
     # 展示攻击后的图像的激活区域
-    adv_gard_cam = grad_cam(adv, end_point, img_class)
+    adv_gard_cam = grad_cam(adv, img_class)
 
     return img, rar_gard_cam, adv_gard_cam
 
+sess.graph.finalize()
 
 if __name__ == '__main__':
     labels_file = 'imagenet_labels.txt'
-    results_file = 'result/grad_result_fgsm_500.txt'
+    results_file = 'result/grad_result_fgsm_final.txt'
+
     if os._exists(results_file):
         os.remove(results_file)
     with open(labels_file, 'r')as f:
@@ -220,12 +227,12 @@ if __name__ == '__main__':
                 demo_target = random.randint(0, 998)
             dir_name = 'img_val/' + str(label_letter)
             for root, dirs, files in os.walk(dir_name):
-                for file in files[:5]:
+                for file in files:
                     img_path = dir_name + '/' + file
                     try:
                         img, rar_gard_cam, adv_gard_cam = get_gard_cam(img_path, img_class, demo_target)
-                    except Exception as e :
-                        print(e)
+                    except Exception as e:
+                        print (e)
                         continue
                     rar_count, adv_count, IOU = get_count_IOU(rar_gard_cam, adv_gard_cam)
                     print(index)
