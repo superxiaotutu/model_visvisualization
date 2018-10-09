@@ -207,7 +207,7 @@ def get_gard_cam(img_path, img_class, demo_target):
     # 展示攻击后的图像的激活区域
     adv_gard_cam = grad_cam(adv, img_class)
 
-    return img, rar_gard_cam, adv_gard_cam
+    return img, rar_gard_cam, adv_gard_cam,label_before,label_after
 
 sess.graph.finalize()
 
@@ -231,16 +231,18 @@ if __name__ == '__main__':
                 for file in files:
                     img_path = dir_name + '/' + file
                     try:
-                        img, rar_gard_cam, adv_gard_cam = get_gard_cam(img_path, img_class, demo_target)
+                        img, rar_gard_cam, adv_gard_cam, label_before, label_after = get_gard_cam(img_path, img_class,
+                                                                                                  demo_target)
                     except Exception as e:
-                        print (e)
+                        print(e)
                         continue
                     rar_count, adv_count, IOU = get_count_IOU(rar_gard_cam, adv_gard_cam)
                     print(index)
-                    print(rar_count, adv_count, IOU)
+                    print(label_before, label_after, IOU)
                     with open(results_file, 'a') as f_w:
                         f_w.write(img_path + ' ' + str(img_class) + ' ' + str(demo_target)
-                                  + ' ' + str(rar_count) + ' ' + str(adv_count) + ' ' + str(IOU) + '\n')
+                                  + ' ' + str(rar_count) + ' ' + str(adv_count) + ' '
+                                  + str(label_before) + ' ' + str(label_after) + ' ' + str(IOU) + '\n')
                 # plt.figure()
                 # plt.subplot(1, 3, 1)
                 # plt.imsave('img.png', img)

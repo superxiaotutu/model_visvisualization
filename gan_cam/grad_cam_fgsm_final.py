@@ -9,14 +9,13 @@ import PIL
 import numpy as np
 import json
 import matplotlib.pyplot as plt
+
 # os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 plt.switch_backend('agg')
 
-
 sess = tf.InteractiveSession()
 image = tf.Variable(tf.zeros((299, 299, 3)))
-
 
 
 # 加载inceptionV
@@ -46,26 +45,29 @@ with open(imagenet_json) as f:
 
 # 打印进攻前的图片
 def classify(img, correct_class=None, target_class=None):
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 8))
-    fig.sca(ax1)
+    # fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 8))
+    # fig.sca(ax1)
     p = sess.run(probs, feed_dict={image: img})[0]
-    ax1.imshow(img)
-    fig.sca(ax1)
+    # ax1.imshow(img)
+    # fig.sca(ax1)
+    #
+    # topk = list(p.argsort()[-10:][::-1])
+    # topprobs = p[topk]
+    # barlist = ax2.bar(range(10), topprobs)
+    # if target_class in topk:
+    #     barlist[topk.index(target_class)].set_color('r')
+    # if correct_class in topk:
+    #     barlist[topk.index(correct_class)].set_color('g')
+    # plt.sca(ax2)
+    # plt.ylim([0, 1.1])
+    # plt.xticks(range(10),
+    #            [imagenet_labels[i][:15] for i in topk],
+    #            rotation='vertical')
+    # fig.subplots_adjust(bottom=0.2)
+    # plt.close()
+    return np.argmax(p)
 
-    topk = list(p.argsort()[-10:][::-1])
-    topprobs = p[topk]
-    barlist = ax2.bar(range(10), topprobs)
-    if target_class in topk:
-        barlist[topk.index(target_class)].set_color('r')
-    if correct_class in topk:
-        barlist[topk.index(correct_class)].set_color('g')
-    plt.sca(ax2)
-    plt.ylim([0, 1.1])
-    plt.xticks(range(10),
-               [imagenet_labels[i][:15] for i in topk],
-               rotation='vertical')
-    fig.subplots_adjust(bottom=0.2)
-    plt.close()
+
 # 进攻
 def step_target_class_adversarial_images(x, eps, one_hot_target_class):
     logits, _, end_points = inception(x, reuse=True)
@@ -100,8 +102,8 @@ def stepllnoise_adversarial_images(x, eps):
 
 # TODO
 # 重要代码，获取激活分布8*8
-layer_name='Mixed_7c'
-num_class=1000
+layer_name = 'Mixed_7c'
+num_class = 1000
 conv_layer = end_point[layer_name]
 pre_calss = tf.placeholder(tf.int32)
 one_hot = tf.sparse_to_dense(pre_calss, [num_class], 1.0)
@@ -109,6 +111,7 @@ signal = tf.multiply(end_point['Logits'][:, 1:], one_hot)
 loss = tf.reduce_mean(signal)
 grads = tf.gradients(loss, conv_layer)[0]
 norm_grads = tf.div(grads, tf.sqrt(tf.reduce_mean(tf.square(grads))) + tf.constant(1e-5))
+
 
 def grad_cam(x, class_num):
     output, grads_val = sess.run([conv_layer, norm_grads], feed_dict={image: x, pre_calss: class_num})
@@ -139,11 +142,12 @@ def grad_cam(x, class_num):
 
 
 def get_count_IOU(rar, adv):
-    rar_count = rar[rar==1].size
-    adv_count = adv[adv==1].size
-    sum=rar+adv
+    rar_count = rar[rar == 1].size
+    adv_count = adv[adv == 1].size
+    sum = rar + adv
     IOU = sum[sum == 2].size / sum[sum != 0].size
     return rar_count, adv_count, IOU
+
 
 x = tf.placeholder(tf.float32, (299, 299, 3))
 x_hat = image  # our trainable adversarial input
@@ -161,6 +165,7 @@ with tf.control_dependencies([projected]):
     project_step = tf.assign(x_hat, projected)
 FGSM_adv = stepll_adversarial_images(x_hat, 0.30)
 
+
 def get_gard_cam(img_path, img_class, demo_target):
     demo_epsilon = 2.0 / 255.0
     demo_lr = 0.1
@@ -174,13 +179,12 @@ def get_gard_cam(img_path, img_class, demo_target):
     img = (np.asarray(img) / 255.0).astype(np.float32)
 
     # 展示原分类图
-    # classify(img, correct_class=img_class)
+    label_before = classify(img, correct_class=img_class)
 
     # 获取原图激活区域
     rar_gard_cam = grad_cam(img, img_class)
 
     # 显示被进攻后和的激活区域
-
 
     # initialization step
     """"""
@@ -205,8 +209,10 @@ def get_gard_cam(img_path, img_class, demo_target):
     # classify(adv, correct_class=img_class)
     # 展示攻击后的图像的激活区域
     adv_gard_cam = grad_cam(adv, img_class)
+    label_after = classify(adv, correct_class=img_class)
 
-    return img, rar_gard_cam, adv_gard_cam
+    return img, rar_gard_cam, adv_gard_cam, label_before, label_after
+
 
 sess.graph.finalize()
 
@@ -222,7 +228,7 @@ if __name__ == '__main__':
             label_letter = line.split(' ')
             label_letter = label_letter[0]
             img_class = index
-            demo_target = random.randint(0,998)
+            demo_target = random.randint(0, 998)
             if demo_target == img_class:
                 demo_target = random.randint(0, 998)
             dir_name = 'img_val/' + str(label_letter)
@@ -230,16 +236,18 @@ if __name__ == '__main__':
                 for file in files:
                     img_path = dir_name + '/' + file
                     try:
-                        img, rar_gard_cam, adv_gard_cam = get_gard_cam(img_path, img_class, demo_target)
+                        img, rar_gard_cam, adv_gard_cam, label_before, label_after = get_gard_cam(img_path, img_class,
+                                                                                                  demo_target)
                     except Exception as e:
-                        print (e)
+                        print(e)
                         continue
                     rar_count, adv_count, IOU = get_count_IOU(rar_gard_cam, adv_gard_cam)
                     print(index)
-                    print(rar_count, adv_count, IOU)
+                    print(label_before, label_after, IOU)
                     with open(results_file, 'a') as f_w:
                         f_w.write(img_path + ' ' + str(img_class) + ' ' + str(demo_target)
-                                  + ' ' + str(rar_count) + ' ' + str(adv_count) + ' ' + str(IOU) + '\n')
+                                  + ' ' + str(rar_count) + ' ' + str(adv_count) + ' '
+                                  + str(label_before) + ' ' + str(label_after) + ' ' + str(IOU) + '\n')
                 # plt.figure()
                 # plt.subplot(1, 3, 1)
                 # plt.imsave('img.png', img)
@@ -247,4 +255,3 @@ if __name__ == '__main__':
                 # plt.imsave('rar_gard_cam' + '.png', rar_gard_cam)
                 # plt.subplot(1, 3, 3)
                 # plt.imsave('adv_gard_cam' + '.png', adv_gard_cam)
-
