@@ -10,7 +10,7 @@ import numpy as np
 import json
 import matplotlib.pyplot as plt
 import os
-os.environ["CUDA_VISIBLE"] = "2,3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "2,3"
 plt.switch_backend('agg')
 
 sess = tf.InteractiveSession()
@@ -206,7 +206,7 @@ def get_gard_cam(img_path, img_class, demo_target):
 
 if __name__ == '__main__':
     labels_file = 'imagenet_labels.txt'
-    results_file = 'result/grad_result_fgsm.txt'
+    results_file = 'result/grad_result_fgsm_500.txt'
     if os._exists(results_file):
         os.remove(results_file)
     with open(labels_file, 'r')as f:

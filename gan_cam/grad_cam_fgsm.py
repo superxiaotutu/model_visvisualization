@@ -10,7 +10,7 @@ import numpy as np
 import json
 import matplotlib.pyplot as plt
 import os
-os.environ["CUDA_VISIBLE"] = "1,2,3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1,2,3"
 plt.switch_backend('agg')
 
 sess = tf.InteractiveSession()
