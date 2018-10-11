@@ -113,24 +113,27 @@ grads = tf.gradients(loss, conv_layer)[0]
 norm_grads = tf.div(grads, tf.sqrt(tf.reduce_mean(tf.square(grads))) + tf.constant(1e-5))
 
 
-def grad_cam(x, class_num):
-    output, grads_val = sess.run([conv_layer, norm_grads], feed_dict={image: x, pre_calss: class_num})
-    output = output[0]
-    grads_val = grads_val[0]
-    weights = np.mean(grads_val, axis=(0, 1))  # [512]
-    cam = np.ones(output.shape[0: 2], dtype=np.float32)  # [7,7]
-
-    # Taking a weighted average
-    for i, w in enumerate(weights):
-        cam += w * output[:, :, i]
-
-    # Passing through ReLU
-
+def grad_cam(end_point, pre_calss_one_hot, layer_name='Mixed_7c'):
+    conv_layer = end_point[layer_name]
+    signal = tf.multiply(end_point['Logits'], pre_calss_one_hot)
+    loss = tf.reduce_mean(signal, 1)
+    grads = tf.gradients(loss, conv_layer)[0]
+    norm_grads = tf.div(grads, tf.sqrt(tf.reduce_mean(tf.square(grads))) + tf.constant(1e-5))
+    weights = tf.reduce_mean(norm_grads, axis=(1, 2))
+    weights = tf.expand_dims(weights, 1)
+    weights = tf.expand_dims(weights, 1)
+    weights = tf.tile(weights, [1, 8, 8, 1])
+    pre_cam = tf.multiply(weights, conv_layer)
+    cam = tf.reduce_sum(pre_cam, 3)
+    cam = tf.expand_dims(cam, 3)
     """"""
-    cam = cam - np.mean(cam)
-
-    cam = np.maximum(cam, 0)
-    cam = cam / np.max(cam)
+    cam = tf.reshape(cam, [-1, 64])
+    cam = tf.nn.softmax(cam)
+    cam = tf.reshape(cam, [-1, 8, 8, 1])
+    # cam = tf.nn.relu(cam)
+    resize_cam = tf.image.resize_images(cam, [299, 299])
+    # resize_cam = resize_cam / tf.reduce_max(resize_cam)
+    return resize_cam
 
     # cam = resize(cam, (299, 299))
     # Converting grayscale to 3-D

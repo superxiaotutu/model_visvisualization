@@ -1,5 +1,6 @@
 import os
 import random
+
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import tensorflow.contrib.slim.nets as nets
@@ -8,7 +9,6 @@ import numpy as np
 import json
 import matplotlib.pyplot as plt
 
-plt.switch_backend('agg')
 
 sess = tf.InteractiveSession()
 image = tf.Variable(tf.zeros((299, 299, 3)))
@@ -47,7 +47,6 @@ def classify(img, correct_class=None, target_class=None):
     p = sess.run(probs, feed_dict={image: img})[0]
     ax1.imshow(img)
     fig.sca(ax1)
-
     topk = list(p.argsort()[-10:][::-1])
     topprobs = p[topk]
     barlist = ax2.bar(range(10), topprobs)
@@ -61,7 +60,7 @@ def classify(img, correct_class=None, target_class=None):
                [imagenet_labels[i][:15] for i in topk],
                rotation='vertical')
     fig.subplots_adjust(bottom=0.2)
-    plt.close()
+    plt.show()
 # 进攻
 def step_target_class_adversarial_images(x, eps, one_hot_target_class):
     logits, _, end_points = inception(x, reuse=True)
@@ -96,6 +95,9 @@ def stepllnoise_adversarial_images(x, eps):
 
 # TODO
 # 重要代码，获取激活分布8*8
+layer_name='Mixed_7c'
+num_class=1000
+pre_calss=1
 conv_layer = end_point[layer_name]
 one_hot = tf.sparse_to_dense(pre_calss, [num_class], 1.0)
 signal = tf.multiply(end_point['Logits'][:, 1:], one_hot)
@@ -103,7 +105,7 @@ loss = tf.reduce_mean(signal)
 grads = tf.gradients(loss, conv_layer)[0]
 norm_grads = tf.div(grads, tf.sqrt(tf.reduce_mean(tf.square(grads))) + tf.constant(1e-5))
 
-def grad_cam(x, end_point, pre_calss, layer_name='Mixed_7c', num_class=1000):
+def grad_cam(x ):
     output, grads_val = sess.run([conv_layer, norm_grads], feed_dict={image: x})
     output = output[0]
     grads_val = grads_val[0]
@@ -165,7 +167,7 @@ def get_gard_cam(img_path, img_class, demo_target):
     img = (np.asarray(img) / 255.0).astype(np.float32)
 
     # 展示原分类图
-    # classify(img, correct_class=img_class)
+    classify(img, correct_class=img_class)
 
     # 获取原图激活区域
     rar_gard_cam = grad_cam(img, end_point, img_class)
@@ -201,33 +203,41 @@ def get_gard_cam(img_path, img_class, demo_target):
     return img, rar_gard_cam, adv_gard_cam
 
 if __name__ == '__main__':
-    labels_file = 'imagenet_labels.txt'
-    results_file = 'result/grad_result.txt'
-    if os._exists(results_file):
-        os.remove(results_file)
-    with open(labels_file, 'r')as f:
-        lines = f.readlines()
-        for index, line in enumerate(lines):
-            label_letter = line.split(' ')
-            label_letter = label_letter[0]
-            img_class = index
-            demo_target = random.randint(0,998)
-            if demo_target == img_class:
-                demo_target = random.randint(0, 998)
-            dir_name = 'img_val/' + str(label_letter)
-            for root, dirs, files in os.walk(dir_name):
-                for file in files[:5]:
-                    img_path = dir_name + '/' + file
-                    try:
-                        img, rar_gard_cam, adv_gard_cam = get_gard_cam(img_path, img_class, demo_target)
-                    except:
-                        continue
-                    rar_count, adv_count, IOU = get_count_IOU(rar_gard_cam, adv_gard_cam)
-                    print(index)
-                    print(rar_count, adv_count, IOU)
-                    with open(results_file, 'a') as f_w:
-                        f_w.write(img_path + ' ' + str(img_class) + ' ' + str(demo_target)
-                                  + ' ' + str(rar_count) + ' ' + str(adv_count) + ' ' + str(IOU) + '\n')
+    img = PIL.Image.open('H:/model_visvisualization/gan_cam/voc/JPEGImages/2011_003238.jpg')
+    big_dim = max(img.width, img.height)
+    wide = img.width > img.height
+    new_w = 299 if not wide else int(img.width * 299 / img.height)
+    new_h = 299 if wide else int(img.height * 299 / img.width)
+    img = img.resize((new_w, new_h)).crop((0, 0, 299, 299))
+    img = (np.asarray(img) / 255.0).astype(np.float32)
+    classify(img,123)
+    # labels_file = 'imagenet_labels.txt'
+    # results_file = 'result/grad_result.txt'
+    # if os._exists(results_file):
+    #     os.remove(results_file)
+    # with open(labels_file, 'r')as f:
+    #     lines = f.readlines()
+    #     for index, line in enumerate(lines):
+    #         label_letter = line.split(' ')
+    #         label_letter = label_letter[0]
+    #         img_class = index
+    #         demo_target = random.randint(0,998)
+    #         if demo_target == img_class:
+    #             demo_target = random.randint(0, 998)
+    #         dir_name = 'img_val/' + str(label_letter)
+    #         for root, dirs, files in os.walk(dir_name):
+    #             for file in files[:5]:
+    #                 img_path = dir_name + '/' + file
+    #                 try:
+    #                     img, rar_gard_cam, adv_gard_cam = get_gard_cam(img_path, img_class, demo_target)
+    #                 except:
+    #                     continue
+    #                 rar_count, adv_count, IOU = get_count_IOU(rar_gard_cam, adv_gard_cam)
+    #                 print(index)
+    #                 print(rar_count, adv_count, IOU)
+    #                 with open(results_file, 'a') as f_w:
+    #                     f_w.write(img_path + ' ' + str(img_class) + ' ' + str(demo_target)
+    #                               + ' ' + str(rar_count) + ' ' + str(adv_count) + ' ' + str(IOU) + '\n')
                 # plt.figure()
                 # plt.subplot(1, 3, 1)
                 # plt.imsave('img.png', img)
