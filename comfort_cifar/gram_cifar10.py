@@ -1,13 +1,24 @@
+import time
+
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import cifarnet
 import numpy as np
 import os
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1,2,3"
+print('输入cuda : 0,1')
+cuda = str(input())
+
+os.environ["CUDA_VISIBLE_DEVICES"] = cuda
 """
 总loss 记得用一下RCE
 """
+print('输入a b c : 10 20 30')
+
+arg = str(input()).split(' ')
+a, b, c = arg[0], arg[1], arg[2]
+print(a, b, c)
+a, b, c, d = int(a), int(b), int(c), 1
 
 _BATCH_SIZE = 50
 lr = 0.0001
@@ -78,12 +89,12 @@ def mask_image(img, grad_cam):
 
 def save():
     saver = tf.train.Saver()
-    saver.save(sess, "model/model.ckpt")
+    saver.save(sess, "model" + str(a) + '_' + str(b) + '_' + str(c) + "/model.ckpt")
 
 
 def restore():
     saver = tf.train.Saver()
-    saver.restore(sess, "model/model.ckpt")
+    saver.restore(sess, "model" + str(a) + '_' + str(b) + '_' + str(c) + "/model.ckpt")
 
 
 adv_sample_get_op = stepll_adversarial_images(X, tf.random_uniform([1], 0, 0.3))
@@ -91,8 +102,6 @@ fixed_adv_sample_get_op = stepll_adversarial_images(X, 0.15)
 
 rar_logits, rar_probs, rar_end_point = bulid_Net(X)
 adv_logits, adv_probs, adv_end_point = bulid_Net(X_adv)
-
-
 
 rar_grad_cam = grad_cam(rar_end_point, Y)
 adv_grad_cam = grad_cam(adv_end_point, Y)
@@ -113,16 +122,12 @@ with tf.name_scope("attation_loss"):
     attention_loss = a_1 + a_2
 
 # a+b+c=100
-a, b, c, d = 1, 1, 1, 9
-result_file = 'result' + str(a) + '_' + str(b) + '_' + str(c) + '.txt'
-if os.path.isfile(result_file):
-    os.remove(result_file)
-f_w = open(result_file,'a')
+
 with tf.name_scope("classifition_loss"):
     loss_1 = slim.losses.softmax_cross_entropy(rar_logits, Y)
     loss_2 = slim.losses.softmax_cross_entropy(adv_logits, Y)
     regularization = tf.add_n(slim.losses.get_regularization_losses())
-    classification_loss = loss_1 + d * loss_2
+    classification_loss = loss_1 + loss_2 + regularization
 with tf.name_scope("total_loss"):
     total_loss = a * classification_loss + b * attention_loss + c * grad_cam_loss
 
@@ -196,8 +201,9 @@ test_filename = 'cifar_data/cifar10_test.tfrecord'
 train_batch = read_and_decode(filename, _BATCH_SIZE)
 test_batch = test_read_and_decode(test_filename, _BATCH_SIZE)
 coord = tf.train.Coordinator()
-
-sess = tf.Session()
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+sess = tf.Session(config=config)
 sess.run(tf.global_variables_initializer())
 
 threads = tf.train.start_queue_runners(coord=coord, sess=sess)
@@ -206,8 +212,18 @@ train_writer = tf.summary.FileWriter("model/log/train", sess.graph)
 test_writer = tf.summary.FileWriter("model/log/test", sess.graph)
 adv_writer = tf.summary.FileWriter("model/log/adv", sess.graph)
 
-# restore()
+try:
+    restore()
+except:
+    print('init')
+    pass
 
+time_start = time.time()
+result_file = 'result' + str(a) + '_' + str(b) + '_' + str(c) + '.txt'
+
+f_w = open(result_file, 'a')
+f_w.write('ini')
+f_w.close()
 for i in range(50000):
     batch = sess.run(train_batch)
     adv_sample = sess.run(fixed_adv_sample_get_op, feed_dict={X: batch[0], keep_prop: 1.0})
@@ -216,7 +232,7 @@ for i in range(50000):
 
     adv_sample_N1 = sess.run(fixed_adv_sample_get_op, feed_dict={X: adv_sample, keep_prop: 1.0})
     _, adv_acc, adv_summery = sess.run([train_op, accuracy, summary_op],
-                                       feed_dict={X: adv_sample, X_adv: adv_sample_N1, Y: batch[1], keep_prop: 0.5})
+                                       feed_dict={X: batch[0], X_adv: adv_sample_N1, Y: batch[1], keep_prop: 0.5})
 
     # adv_sample_N2 = sess.run(fixed_adv_sample_get_op, feed_dict={X: adv_sample_N1, keep_prop: 1.0})
     # _, acc = sess.run([train_op, accuracy], feed_dict={X: adv_sample_N1, X_adv: adv_sample_N2, Y: batch[1], keep_prop: 0.5})
@@ -224,15 +240,16 @@ for i in range(50000):
     if i % 10 == 0:
         train_writer.add_summary(summery, i)
         adv_writer.add_summary(adv_summery, i)
-        print(acc, i)
-
+        print(acc,i)
     if 1 % 100 == 0:
         testbatch = sess.run(test_batch)
         test_acc, test_summ = sess.run([accuracy, summary_op], feed_dict={X: testbatch[0], Y: batch[1], keep_prop: 1.0})
         test_writer.add_summary(test_summ, i)
-        f_w.write(str(acc) + " " + str(i))
 
     if i % 10000 == 0 and i != 0:
+        f_w = open(result_file, 'a')
+        f_w.write(str(acc) + " " + str(i) + "\n")
+        f_w.close()
         save()
 
 save()
@@ -245,6 +262,8 @@ ADV_s = sess.run(fixed_adv_sample_get_op, feed_dict={X: batch[0], keep_prop: 1.0
 A_cam = sess.run(rar_grad_cam, feed_dict={X: ADV_s, Y: batch[1], keep_prop: 1.0})
 A_mask = sess.run(mask_X, feed_dict={X: ADV_s, Y: batch[1], keep_prop: 1.0})
 A_mask = np.nan_to_num(A_mask)
+time_end = time.time()
+print(str(time_end - time_start) + "s")
 
 print("进行RAR测试集测试:")
 ACC = 0
@@ -256,5 +275,8 @@ for i in range(10000 // _BATCH_SIZE):
     adv_ACC += sess.run(accuracy, feed_dict={X: adv_sample, Y: testbatch[1], keep_prop: 1.0})
 print(ACC / (10000 // _BATCH_SIZE))
 print(adv_ACC / (10000 // _BATCH_SIZE))
-f_w.write(str(ACC / (10000 // _BATCH_SIZE)) + " " + str(adv_ACC / (10000 // _BATCH_SIZE)))
+f_w = open(result_file, 'a')
+f_w.write(str(ACC / (10000 // _BATCH_SIZE)) + " " + str(adv_ACC / (10000 // _BATCH_SIZE)) + "\n")
+f_w.write(str(time_end - time_start) + "s")
+
 f_w.close()
