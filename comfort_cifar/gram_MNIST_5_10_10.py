@@ -6,9 +6,6 @@ import numpy as np
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
-config = tf.ConfigProto()
-config.gpu_options.allow_growth = True
-session = tf.Session(config=config)
 
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 X_train = mnist.train.images
@@ -26,12 +23,12 @@ Y = tf.placeholder(tf.float32, [_BATCH_SIZE, 10])
 keep_prop = tf.placeholder("float")
 def save():
     saver = tf.train.Saver()
-    saver.save(sess, "model"+str(1)+"/model.ckpt")
+    saver.save(sess, "model"+str(51010)+"/model.ckpt")
 
 
 def restore():
     saver = tf.train.Saver()
-    saver.restore(sess, "model"+str(1)+"/model.ckpt")
+    saver.restore(sess, "model"+str(51010)+"/model.ckpt")
 
 def bulid_Net(image, reuse=tf.AUTO_REUSE):
     image = tf.reshape(image, [-1, 28, 28, 1])
@@ -127,56 +124,49 @@ import csv
 # hplist = [0.5, 1,  20, 50]
 hplist=[2, 5, 10,]
 
-for ii, hp_a in enumerate(hplist):
-    result_file = 'result——hplist1.txt'
 
-    for j, hp_b in enumerate(hplist):
-        for k, hp_c in enumerate(hplist):
-            if hp_a==hp_b and hp_a==hp_c and hp_c==hp_b:
-                continue
+with tf.name_scope("total_loss"):
+    total_loss = classification_loss*5 + attention_loss*10 + grad_cam_loss*10
 
-            with tf.name_scope("total_loss"):
-                total_loss = classification_loss*hp_a + attention_loss*hp_b + grad_cam_loss*hp_c
+correct_p = tf.equal(tf.argmax(rar_probs, 1), (tf.argmax(Y, 1)))
+accuracy = tf.reduce_mean(tf.cast(correct_p, "float"))
+train_op = tf.train.AdamOptimizer(0.0001).minimize(total_loss)
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+sess = tf.Session(config=config)
+sess.run(tf.global_variables_initializer())
+result_file = 'result_5-10-10.txt'
 
-            correct_p = tf.equal(tf.argmax(rar_probs, 1), (tf.argmax(Y, 1)))
-            accuracy = tf.reduce_mean(tf.cast(correct_p, "float"))
-            train_op = tf.train.AdamOptimizer(0.0001).minimize(total_loss)
-            config = tf.ConfigProto()
-            config.gpu_options.allow_growth = True
-            sess = tf.Session(config=config)
-            sess = tf.Session()
-            sess.run(tf.global_variables_initializer())
+for i in range(30000):
+    batch = mnist.train.next_batch(_BATCH_SIZE)
+    adv_sample = sess.run(fixed_adv_sample_get_op, feed_dict={X: batch[0], keep_prop: 1.0})
+    _, acc = sess.run([train_op, accuracy], feed_dict={X: batch[0], X_adv: adv_sample, Y: batch[1], keep_prop: 0.5})
 
-            for i in range(10000):
-                batch = mnist.train.next_batch(_BATCH_SIZE)
-                adv_sample = sess.run(fixed_adv_sample_get_op, feed_dict={X: batch[0], keep_prop: 1.0})
-                _, acc = sess.run([train_op, accuracy], feed_dict={X: batch[0], X_adv: adv_sample, Y: batch[1], keep_prop: 0.5})
+    adv_sample_N1 = sess.run(fixed_adv_sample_get_op, feed_dict={X: adv_sample, keep_prop: 1.0})
+    _, acc = sess.run([train_op, accuracy], feed_dict={X: batch[0], X_adv: adv_sample_N1, Y: batch[1], keep_prop: 0.5})
 
-                adv_sample_N1 = sess.run(fixed_adv_sample_get_op, feed_dict={X: adv_sample, keep_prop: 1.0})
-                _, acc = sess.run([train_op, accuracy], feed_dict={X: batch[0], X_adv: adv_sample_N1, Y: batch[1], keep_prop: 0.5})
+    #adv_sample_N2 = sess.run(fixed_adv_sample_get_op, feed_dict={X: adv_sample_N1, keep_prop: 1.0})
+    #_, acc = sess.run([train_op, accuracy], feed_dict={X: adv_sample_N1, X_adv: adv_sample_N2, Y: batch[1], keep_prop: 0.5})
 
-                #adv_sample_N2 = sess.run(fixed_adv_sample_get_op, feed_dict={X: adv_sample_N1, keep_prop: 1.0})
-                #_, acc = sess.run([train_op, accuracy], feed_dict={X: adv_sample_N1, X_adv: adv_sample_N2, Y: batch[1], keep_prop: 0.5})
+    if i % 100 == 0:
+        print(acc)
+    if i % 1000 == 0:
+        print(acc)
+    if i % 10000 == 0:
+        save()
+        f_w = open(result_file, 'a')
+        f_w.write(str([acc, 5, 10, 10])+'\n')
+        f_w.close()
+batch = mnist.train.next_batch(_BATCH_SIZE)
+R_cam = sess.run(rar_grad_cam, feed_dict={X: batch[0], Y: batch[1], keep_prop: 1.0})
+R_mask = sess.run(mask_X, feed_dict={X: batch[0], Y: batch[1], keep_prop: 1.0})
+R_mask = np.nan_to_num(R_mask)
+ADV_s = sess.run(fixed_adv_sample_get_op, feed_dict={X: batch[0], keep_prop: 1.0})
+A_cam = sess.run(rar_grad_cam, feed_dict={X: ADV_s, Y: batch[1], keep_prop: 1.0})
+A_mask = sess.run(mask_X, feed_dict={X: ADV_s, Y: batch[1], keep_prop: 1.0})
+A_mask = np.nan_to_num(A_mask)
 
-                if i % 100 == 0:
-                    print(acc)
-                if i % 1000 == 0:
-                    print(acc)
-                if i % 10000 == 0:
-                    save()
-                    f_w = open(result_file, 'a')
-                    f_w.write(str([acc, hp_a, hp_b, hp_c])+'\n')
-                    f_w.close()
-            batch = mnist.train.next_batch(_BATCH_SIZE)
-            R_cam = sess.run(rar_grad_cam, feed_dict={X: batch[0], Y: batch[1], keep_prop: 1.0})
-            R_mask = sess.run(mask_X, feed_dict={X: batch[0], Y: batch[1], keep_prop: 1.0})
-            R_mask = np.nan_to_num(R_mask)
-            ADV_s = sess.run(fixed_adv_sample_get_op, feed_dict={X: batch[0], keep_prop: 1.0})
-            A_cam = sess.run(rar_grad_cam, feed_dict={X: ADV_s, Y: batch[1], keep_prop: 1.0})
-            A_mask = sess.run(mask_X, feed_dict={X: ADV_s, Y: batch[1], keep_prop: 1.0})
-            A_mask = np.nan_to_num(A_mask)
 
-            import matplotlib.pyplot as plt
 
             # for i in range(50):
             #     img_rar = np.reshape(batch[0][i], [28, 28])
@@ -211,21 +201,20 @@ for ii, hp_a in enumerate(hplist):
             # plt.imshow(np.tile(np.expand_dims(cam_rar, axis=2), [1, 1, 3]))
             # plt.show()
 
-            print("进行RAR测试集测试:")
-            ACC = 0
-            adv_ACC = 0
-            for i in range(200):
-                testbatch = mnist.test.next_batch(_BATCH_SIZE)
-                adv_sample = sess.run(fixed_adv_sample_get_op, feed_dict={X: testbatch[0], keep_prop: 1.0})
-                ACC += sess.run(accuracy, feed_dict={X: testbatch[0], Y: testbatch[1], keep_prop: 1.0})
-                adv_ACC += sess.run(accuracy, feed_dict={X: adv_sample, Y: testbatch[1], keep_prop: 1.0})
+print("进行RAR测试集测试:")
+ACC = 0
+adv_ACC = 0
+for i in range(200):
+    testbatch = mnist.test.next_batch(_BATCH_SIZE)
+    adv_sample = sess.run(fixed_adv_sample_get_op, feed_dict={X: testbatch[0], keep_prop: 1.0})
+    ACC += sess.run(accuracy, feed_dict={X: testbatch[0], Y: testbatch[1], keep_prop: 1.0})
+    adv_ACC += sess.run(accuracy, feed_dict={X: adv_sample, Y: testbatch[1], keep_prop: 1.0})
 
-            val_adv = adv_ACC/200
-            val = ACC / 200
-            f_w = open(result_file, 'a')
-            f_w.write(str([val_adv, val,hp_a, hp_b, hp_c]) + '\n')
-            f_w.close()
-            print(ACC / 200)
-            print(adv_ACC / 200)
-            print('Now,per is         ', (ii*7*7+j*7+k)/(7*7*7))
+val_adv = adv_ACC/200
+val = ACC / 200
+f_w = open(result_file, 'a')
+f_w.write(str([val_adv, val,5, 10, 10]) + '\n')
+f_w.close()
+print(ACC / 200)
+print(adv_ACC / 200)
 
