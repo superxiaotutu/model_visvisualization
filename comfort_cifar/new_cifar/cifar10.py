@@ -254,6 +254,10 @@ for i in range(50000):
     if 1 % 100 == 0:
         testbatch = sess.run(test_batch)
         test_acc, test_summ = sess.run([accuracy, summary_op], feed_dict={X: testbatch[0], Y: batch[1], keep_prop: 1.0})
+    if 1 % 1000 == 0:
+        f_w = open(result_file, 'a')
+        f_w.write(str(acc) + " " + str(i) + "\n")
+        f_w.close()
     if i % 10000 == 0 and i != 0:
         f_w = open(result_file, 'a')
         f_w.write(str(acc) + " " + str(i) + "\n")
