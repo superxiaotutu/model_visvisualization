@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d65336f7-c470-424d-b95b-31d4f3910f08" name="211.71.76.161" url="http://211.71.76.161">
+        <fileTransfer host="211.71.76.161" port="22" rootFolder="/home/hua/" accessType="SFTP" password="df9adfc5dfdadf92df93dfc3df9ddfd3dfdf" username="hua">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+      <webServer id="6d190be6-2e96-4bd0-8eb1-946d15a3eabe" name="211.71.76.163" url="http://211.71.76.163">
+        <fileTransfer host="211.71.76.163" port="22" rootFolder="/data/objectdetection" accessType="SFTP" password="df9bdf98df99df9edf9fdf9cdf9ddf92" username="objectdetection">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

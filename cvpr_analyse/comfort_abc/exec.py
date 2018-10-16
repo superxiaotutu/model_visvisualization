@@ -1,16 +1,18 @@
 import sys
 import os
 
-a_list,b_list,c_list=[8],[2,2.5,3,3.5,4,4.5,5],[1]
+# a_list,b_list,c_list=[8],[2,2.5,3,3.5,4,4.5,5],[1]
 #
 # a_list,b_list,c_list=[8],[6,6.5,5.5],[1]
 # a_list,b_list,c_list=[11,10,9],[4],[1]
 #
 # a_list,b_list,c_list=[5,4,3,2,1,8],[4],[1]
 #
-# a_list,b_list,c_list=[8],[4],[0.2,0.4,0.6,0.8,1]
+# a_list,b_list,c_list=[8],[4],[0.2,0.4]
 #
-# a_list,b_list,c_list=[8],[4],[1.2,1.4,1.6,1.82]
+# a_list,b_list,c_list=[8],[4],[0.8,1,1.2]
+a_list,b_list,c_list=[8],[4],[1.4,1.6,1.8,2,0.6]
+
 
 for ai, a in enumerate(a_list):
     for bi, b in enumerate(b_list):

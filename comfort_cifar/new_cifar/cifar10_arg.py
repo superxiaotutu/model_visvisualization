@@ -5,13 +5,15 @@ import tensorflow.contrib.slim as slim
 import cifarnet
 import numpy as np
 import sys
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 arg = (sys.argv[1].split('-'))
 
-a, b, c = arg[0], arg[1], arg[2]
-print(a, b, c)
-a, b, c, d = int(a), int(b), int(c), 1
+a, b, c,cuda = arg[0], arg[1], arg[2], arg[3]
+
+print(a, b, c,cuda)
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+
+a, b, c, d = float(a), float(b), float(c), 1
 
 _BATCH_SIZE = 100
 lr = 0.0001
@@ -239,14 +241,12 @@ for i in range(50000):
 
     # adv_sample_N2 = sess.run(fixed_adv_sample_get_op, feed_dict={X: adv_sample_N1, keep_prop: 1.0})
     # _, acc = sess.run([train_op, accuracy], feed_dict={X: adv_sample_N1, X_adv: adv_sample_N2, Y: batch[1], keep_prop: 0.5})
-
-    if i % 10 == 0:
-        train_writer.add_summary(summery, i)
-        adv_writer.add_summary(adv_summery, i)
-        print(acc, i)
     if 1 % 100 == 0:
         testbatch = sess.run(test_batch)
         test_acc, test_summ = sess.run([accuracy, summary_op], feed_dict={X: testbatch[0], Y: batch[1], keep_prop: 1.0})
+        train_writer.add_summary(summery, i)
+        adv_writer.add_summary(adv_summery, i)
+        print(acc, i)
     if 1 % 1000 == 0:
         f_w = open(result_file, 'a')
         f_w.write(str(acc) + " " + str(i) + "\n")
@@ -289,10 +289,14 @@ print(ACC / (10000 // _BATCH_SIZE))
 print(adv_ACC / (10000 // _BATCH_SIZE))
 print(noise_adv_ACC / (10000 // _BATCH_SIZE))
 print(double_adv_ACC / (10000 // _BATCH_SIZE))
+f_w = open('result.txt', 'a')
+f_w.write(str(a) + " " + str(b) +" "+str(c)+ "\n")
+f_w.write(str(ACC / (10000 // _BATCH_SIZE)) + " " + str(adv_ACC / (10000 // _BATCH_SIZE)) + " ")
+f_w.write(str(noise_adv_ACC / (10000 // _BATCH_SIZE)) + " " + str(double_adv_ACC / (10000 // _BATCH_SIZE)) + "\n")
+f_w.close()
 
 f_w = open(result_file, 'a')
-f_w.write(str(ACC / (10000 // _BATCH_SIZE)) + " " + str(adv_ACC / (10000 // _BATCH_SIZE)) + "\n")
+f_w.write(str(ACC / (10000 // _BATCH_SIZE)) + " " + str(adv_ACC / (10000 // _BATCH_SIZE)) + " ")
 f_w.write(str(noise_adv_ACC / (10000 // _BATCH_SIZE)) + " " + str(double_adv_ACC / (10000 // _BATCH_SIZE)) + "\n")
-f_w.write(str(time_end - time_start) + "s")
-
+f_w.write(str(time_end - time_start) + "s"+ "\n")
 f_w.close()

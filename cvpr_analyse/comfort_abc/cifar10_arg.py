@@ -1,25 +1,19 @@
+import os
 import time
-
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import cifarnet
 import numpy as np
-import os
+import sys
 
+arg = (sys.argv[1].split('-'))
 
-# print('输入cuda : 0,1')
-# cuda = str(input())
+a, b, c,cuda = arg[0], arg[1], arg[2], arg[3]
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
-# """
-# 总loss 记得用一下RCE
-# """
-# print('输入a b c : 10 20 30')
-#
-# arg = str(input()).split(' ')
-# a, b, c = arg[0], arg[1], arg[2]
-# print(a, b, c)
-a, b, c, d = int(1), int(1), int(1), 1
+print(a, b, c,cuda)
+os.environ["CUDA_VISIBLE_DEVICES"] = cuda
+
+a, b, c, d = float(a), float(b), float(c), 1
 
 _BATCH_SIZE = 100
 lr = 0.0001
@@ -95,6 +89,7 @@ def mask_image(img, grad_cam):
     reverse_cam = tf.abs(cam_clip - 1)
     return reverse_cam * img
 
+
 def save():
     saver = tf.train.Saver()
     saver.save(sess, "model" + str(a) + '_' + str(b) + '_' + str(c) + "/model.ckpt")
@@ -152,6 +147,7 @@ accuracy = tf.reduce_mean(tf.cast(correct_p, "float"))
 tf.summary.scalar('accuracy', accuracy)
 train_op = tf.train.AdamOptimizer(lr).minimize(total_loss)
 summary_op = tf.summary.merge_all()
+
 
 def read_and_decode(filename, batch_size):
     filename_queue = tf.train.string_input_producer([filename])
@@ -221,7 +217,6 @@ train_writer = tf.summary.FileWriter("model/log/train", sess.graph)
 # test_writer = tf.summary.FileWriter("model/log/test", sess.graph)
 adv_writer = tf.summary.FileWriter("model/log/adv", sess.graph)
 
-
 try:
     restore()
 except:
@@ -246,14 +241,12 @@ for i in range(50000):
 
     # adv_sample_N2 = sess.run(fixed_adv_sample_get_op, feed_dict={X: adv_sample_N1, keep_prop: 1.0})
     # _, acc = sess.run([train_op, accuracy], feed_dict={X: adv_sample_N1, X_adv: adv_sample_N2, Y: batch[1], keep_prop: 0.5})
-
-    if i % 10 == 0:
-        train_writer.add_summary(summery, i)
-        adv_writer.add_summary(adv_summery, i)
-        print(acc,i)
     if 1 % 100 == 0:
         testbatch = sess.run(test_batch)
         test_acc, test_summ = sess.run([accuracy, summary_op], feed_dict={X: testbatch[0], Y: batch[1], keep_prop: 1.0})
+        train_writer.add_summary(summery, i)
+        adv_writer.add_summary(adv_summery, i)
+        print(acc, i)
     if 1 % 1000 == 0:
         f_w = open(result_file, 'a')
         f_w.write(str(acc) + " " + str(i) + "\n")
@@ -265,7 +258,6 @@ for i in range(50000):
         save()
 
 save()
-
 
 batch = sess.run(train_batch)
 R_cam = sess.run(rar_grad_cam, feed_dict={X: batch[0], Y: batch[1], keep_prop: 1.0})
@@ -297,10 +289,14 @@ print(ACC / (10000 // _BATCH_SIZE))
 print(adv_ACC / (10000 // _BATCH_SIZE))
 print(noise_adv_ACC / (10000 // _BATCH_SIZE))
 print(double_adv_ACC / (10000 // _BATCH_SIZE))
+f_w = open('result.txt', 'a')
+f_w.write(str(a) + " " + str(b) +" "+str(c)+ "\n")
+f_w.write(str(ACC / (10000 // _BATCH_SIZE)) + " " + str(adv_ACC / (10000 // _BATCH_SIZE)) + " ")
+f_w.write(str(noise_adv_ACC / (10000 // _BATCH_SIZE)) + " " + str(double_adv_ACC / (10000 // _BATCH_SIZE)) + "\n")
+f_w.close()
 
 f_w = open(result_file, 'a')
-f_w.write(str(ACC / (10000 // _BATCH_SIZE)) + " " + str(adv_ACC / (10000 // _BATCH_SIZE)) + "\n")
+f_w.write(str(ACC / (10000 // _BATCH_SIZE)) + " " + str(adv_ACC / (10000 // _BATCH_SIZE)) + " ")
 f_w.write(str(noise_adv_ACC / (10000 // _BATCH_SIZE)) + " " + str(double_adv_ACC / (10000 // _BATCH_SIZE)) + "\n")
-f_w.write(str(time_end - time_start) + "s")
-
+f_w.write(str(time_end - time_start) + "s"+ "\n")
 f_w.close()

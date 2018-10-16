@@ -287,9 +287,10 @@ print(adv_ACC / (10000 // _BATCH_SIZE))
 print(noise_adv_ACC / (10000 // _BATCH_SIZE))
 print(double_adv_ACC / (10000 // _BATCH_SIZE))
 
+
+
 f_w = open(result_file, 'a')
 f_w.write(str(ACC / (10000 // _BATCH_SIZE)) + " " + str(adv_ACC / (10000 // _BATCH_SIZE)) + "\n")
 f_w.write(str(noise_adv_ACC / (10000 // _BATCH_SIZE)) + " " + str(double_adv_ACC / (10000 // _BATCH_SIZE)) + "\n")
 f_w.write(str(time_end - time_start) + "s")
-
 f_w.close()
