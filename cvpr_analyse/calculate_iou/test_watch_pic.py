@@ -6,10 +6,9 @@ import os
 import PIL
 import matplotlib.pyplot as plt
 
-# os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2"
-plt.switch_backend('agg')
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
-_BATCH_SIZE = 50
+_BATCH_SIZE = 1
 X = tf.placeholder(tf.float32, [_BATCH_SIZE, 299, 299, 3])
 Y = tf.placeholder(tf.int32, [_BATCH_SIZE])
 
@@ -75,6 +74,8 @@ fixed_adv_sample_get_op = stepll_adversarial_images(X, 0.15)
 rar_logits, rar_probs, rar_end_point = inception(X)
 adv_logits, adv_probs, adv_end_point = inception(fixed_adv_sample_get_op)
 
+is_attack = tf.equal(tf.argmax(rar_probs, 1), (tf.argmax(adv_probs, 1)))
+
 rar_grad_cam = grad_cam(rar_end_point, Y)
 adv_grad_cam = grad_cam(adv_end_point, Y)
 
@@ -106,60 +107,47 @@ def get_gound_truth(label_txt):
             ymin = int(next(fp).split('>')[1].split('<')[0])
             xmax = int(next(fp).split('>')[1].split('<')[0])
             ymax = int(next(fp).split('>')[1].split('<')[0])
-            matrix = [int(xmin / width * 299), int(ymin / height * 299), int(xmax / height * 299),
+            matrix = [int(xmin / width * 299), int(ymin / height * 299), int(xmax / width * 299),
                       int(ymax / height * 299)]
-            ground_truth[matrix[0]:matrix[2], matrix[1]:matrix[3]] = 1
+            ground_truth[ matrix[0]:matrix[2],matrix[1]:matrix[3]] = 1
 
     return ground_truth
 
 
 def get_iou(rar, adv, ground_truth):
-    # rar_count = rar[rar == 1].size
-    # adv_count = adv[adv == 1].size
-    # rar_sum = ground_truth + rar
-    # adv_sum = ground_truth + adv
-    # rar_IOU = rar_sum[rar_sum == 2].size / rar_count
-    # adv_IOU = adv_sum[adv_sum == 2].size / adv_count
+    if ground_truth[ground_truth == 1].size == 0:
+        return rar, adv, ground_truth, False
+    rar_count = rar[rar == 1].size
+    adv_count = adv[adv == 1].size
+    ground_count = ground_truth[ground_truth == 1].size
+    rar_sum = rar + ground_truth
+    adv_sum = adv + ground_truth
+    rar_IOU = rar_sum[rar_sum == 2].size / ground_count
+    adv_IOU = adv_sum[adv_sum == 2].size / ground_count
     return rar_count, adv_count, rar_IOU, adv_IOU
 
 
-
 if __name__ == '__main__':
-    loop_num=0
-    rar_IOU_sum=0
-    adv_IOU_sum=0
-    labels_file = 'imagenet_labels.txt'
-    results_file = 'result/grad_result_data.txt'
-    if os.path.exists(results_file):
-        os.remove(results_file)
-    with open(labels_file, 'r',encoding='utf-8')as f:
-        lines = f.readlines()
-        for index, line in enumerate(lines):
-            imgs = []
-            labels=[]
-            ground_truths=[]
-            label_letter = line.split(' ')
-            label_letter = label_letter[0]
-            img_class = index
-            dir_name = 'img_val/' + str(label_letter)
-            for root, dirs, files in os.walk(dir_name):
-                for file in files:
-                    img_path = dir_name + '/' + file
-                    label_path= 'val/'+str(file)[:-4]+'xml'
-                    imgs.append(load_img(img_path))
-                    labels.append(index)
-                    ground_truths.append(get_gound_truth(label_path))
-            rar_maps, adv_maps = sess.run([rar_grad_cam, adv_grad_cam], feed_dict={X: imgs, Y: labels})
-            rar_maps = np.reshape(rar_maps, (_BATCH_SIZE, 299, 299))
-            adv_maps = np.reshape(adv_maps, (_BATCH_SIZE, 299, 299))
-            with open(results_file, 'a', encoding='utf-8') as f_w:
-                for j in range(_BATCH_SIZE):
-                    loop_num+=1
-                    rar_count, adv_count, rar_IOU, adv_IOU = get_iou(rar_maps[j], adv_maps[j], ground_truths[j])
-                    adv_IOU_sum+=adv_IOU
-                    rar_IOU_sum+=rar_IOU
-                    print(loop_num)
-                    print(rar_count, adv_count, rar_IOU, adv_IOU)
-                    f_w.write(str(rar_count) + ' ' + str(adv_count)+ ' ' + str(rar_IOU) + ' ' + str(adv_IOU)  + '\n')
-    with open(results_file, 'a', encoding='utf-8') as f_w:
-        f_w.write('均值'+str(rar_IOU_sum/loop_num)+' '+str(adv_IOU_sum/loop_num))
+    imgs=[]
+    labels=[0]
+    imgs.append(load_img('adv.png'))
+    # gt=get_gound_truth('0000293.xml')
+    rar_maps, adv_maps = sess.run([rar_grad_cam, adv_grad_cam], feed_dict={X: imgs, Y: labels})
+    # rar_maps = np.reshape(rar_maps, (_BATCH_SIZE, 299, 299))
+    # adv_maps = np.reshape(adv_maps, (_BATCH_SIZE, 299, 299))
+    j=0
+    # rar_count, adv_count, rar_g_iou, adv_g_iou = get_iou(rar_maps[j], adv_maps[j], gt)
+
+    plt.imshow(imgs[0])
+    plt.show()
+
+    plt.imshow(rar_maps[0])
+    plt.show()
+    plt.imshow(adv_maps[0])
+    plt.show()
+    # plt.imshow(gt)
+    # plt.show()
+
+    # plt.imshow(np.resize(imgs[0],(299,299))*gt)
+    plt.show()
+

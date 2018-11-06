@@ -6,7 +6,7 @@ import os
 import PIL
 import matplotlib.pyplot as plt
 
-# os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2"
+os.environ["CUDA_VISIBLE_DEVICES"] = "2,3"
 plt.switch_backend('agg')
 
 _BATCH_SIZE = 50
@@ -75,6 +75,8 @@ fixed_adv_sample_get_op = stepll_adversarial_images(X, 0.15)
 rar_logits, rar_probs, rar_end_point = inception(X)
 adv_logits, adv_probs, adv_end_point = inception(fixed_adv_sample_get_op)
 
+is_attack = tf.equal(tf.argmax(rar_probs, 1), (tf.argmax(adv_probs, 1)))
+
 rar_grad_cam = grad_cam(rar_end_point, Y)
 adv_grad_cam = grad_cam(adv_end_point, Y)
 
@@ -102,6 +104,7 @@ def get_gound_truth(label_txt):
         if '<object>' in p:
             label = next(fp).split('>')[1].split('<')[0]
         if '<bndbox>' in p:
+
             xmin = int(next(fp).split('>')[1].split('<')[0])
             ymin = int(next(fp).split('>')[1].split('<')[0])
             xmax = int(next(fp).split('>')[1].split('<')[0])
@@ -113,53 +116,86 @@ def get_gound_truth(label_txt):
     return ground_truth
 
 
-def get_iou(rar, adv, ground_truth):
-    # rar_count = rar[rar == 1].size
-    # adv_count = adv[adv == 1].size
-    # rar_sum = ground_truth + rar
-    # adv_sum = ground_truth + adv
-    # rar_IOU = rar_sum[rar_sum == 2].size / rar_count
-    # adv_IOU = adv_sum[adv_sum == 2].size / adv_count
-    return rar_count, adv_count, rar_IOU, adv_IOU
+def get_iou(rar, adv,goundtruth):
+    print(goundtruth[goundtruth==1])
+    if goundtruth[goundtruth==1].size==0:
+        return False,False,False
+    rar_count = rar[rar == 1].size
+    adv_count = adv[adv == 1].size
+    rar_sum=rar+goundtruth
+    adv_sum=adv+goundtruth
+    rar_IOU = rar_sum[rar_sum == 2].size / rar_count
+    adv_IOU = adv_sum[adv_sum == 2].size / adv_count
+    return rar_count, adv_count, rar_IOU,adv_IOU
 
+def get_iou2(rar, adv):
 
+    rar_count = rar[rar == 1].size
+    adv_count = adv[adv == 1].size
+    rar_sum=rar+adv
+    rar_IOU = rar_sum[rar_sum == 2].size / rar_sum[rar_sum !=0].size
+    return rar_count, adv_count, rar_IOU
 
 if __name__ == '__main__':
-    loop_num=0
-    rar_IOU_sum=0
-    adv_IOU_sum=0
+    loop_num = 0
+    IOU_sum = 0
     labels_file = 'imagenet_labels.txt'
-    results_file = 'result/grad_result_data.txt'
+    results_file = 'grad_result_gt_iout.txt'
     if os.path.exists(results_file):
         os.remove(results_file)
-    with open(labels_file, 'r',encoding='utf-8')as f:
+    defense_iou = 0
+    defense_count = 0
+    attack_iou = 0
+    attack_count = 0
+    with open(labels_file, 'r', encoding='utf-8')as f:
         lines = f.readlines()
         for index, line in enumerate(lines):
             imgs = []
-            labels=[]
-            ground_truths=[]
+            labels = []
             label_letter = line.split(' ')
+            ground_truths=[]
             label_letter = label_letter[0]
             img_class = index
             dir_name = 'img_val/' + str(label_letter)
             for root, dirs, files in os.walk(dir_name):
                 for file in files:
                     img_path = dir_name + '/' + file
-                    label_path= 'val/'+str(file)[:-4]+'xml'
+
+                    label_path = 'val/' + str(file)[:-4] + 'xml'
                     imgs.append(load_img(img_path))
                     labels.append(index)
                     ground_truths.append(get_gound_truth(label_path))
+
+            is_defense = sess.run(is_attack, feed_dict={X: imgs})
+
             rar_maps, adv_maps = sess.run([rar_grad_cam, adv_grad_cam], feed_dict={X: imgs, Y: labels})
             rar_maps = np.reshape(rar_maps, (_BATCH_SIZE, 299, 299))
             adv_maps = np.reshape(adv_maps, (_BATCH_SIZE, 299, 299))
+
+
             with open(results_file, 'a', encoding='utf-8') as f_w:
                 for j in range(_BATCH_SIZE):
-                    loop_num+=1
-                    rar_count, adv_count, rar_IOU, adv_IOU = get_iou(rar_maps[j], adv_maps[j], ground_truths[j])
-                    adv_IOU_sum+=adv_IOU
-                    rar_IOU_sum+=rar_IOU
+                    print(ground_truths[j])
+                    rar_count, adv_count, IOU =get_iou(rar_maps[j], adv_maps[j], ground_truths[j])
+                    _IOU =get_iou2(rar_maps[j], adv_maps[j])
+
+                    print(j)
+                    if IOU==False:
+                        continue
+                    if is_defense[j]:
+                        loop_num += 1
+                        defense_iou += IOU
+                        defense_count+=1
+                    else:
+                        attack_count+=1
+                        attack_iou += IOU
+
                     print(loop_num)
-                    print(rar_count, adv_count, rar_IOU, adv_IOU)
-                    f_w.write(str(rar_count) + ' ' + str(adv_count)+ ' ' + str(rar_IOU) + ' ' + str(adv_IOU)  + '\n')
+                    print(rar_count,defense_count,attack_count, adv_count, IOU)
+
+                    f_w.write(
+                        str(loop_num) +" "+" "+ str(is_defense[j]) + ' ' + str(attack_iou) + ' ' + str(adv_count) + ' ' + str(
+                            IOU) + '\n')
     with open(results_file, 'a', encoding='utf-8') as f_w:
-        f_w.write('均值'+str(rar_IOU_sum/loop_num)+' '+str(adv_IOU_sum/loop_num))
+        f_w.write('均值防御成功' + str(defense_iou / defense_count)+"\n")
+        f_w.write('均值' + str(attack_count / attack_iou)+"\n")
