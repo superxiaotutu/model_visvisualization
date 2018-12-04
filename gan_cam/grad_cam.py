@@ -198,7 +198,7 @@ def get_gard_cam(img_path, img_class, demo_target):
     # 展示攻击后的图像
     # classify(adv, correct_class=img_class)
     # 展示攻击后的图像的激活区域
-    adv_gard_cam = grad_cam(adv, end_point, img_class)
+    adv_gard_cam = grad_cam(a dv, end_point, img_class)
 
     return img, rar_gard_cam, adv_gard_cam
 
