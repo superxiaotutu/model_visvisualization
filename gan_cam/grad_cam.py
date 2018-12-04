@@ -205,7 +205,7 @@ def get_gard_cam(img_path, img_class, demo_target):
 if __name__ == '__main__':
     labels_file = 'imagenet_labels.txt'
     results_file = 'result/grad_result.txt'
-    if os._exists(results_file):
+    if os.path.isfile (results_file):
         os.remove(results_file)
     with open(labels_file, 'r')as f:
         lines = f.readlines()

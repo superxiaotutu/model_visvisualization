@@ -10,8 +10,8 @@ import os
 #
 # a_list,b_list,c_list=[8],[4],[0.2,0.4]
 #
-# a_list,b_list,c_list=[8],[4],[0.8,1,1.2]
-a_list,b_list,c_list=[8],[4],[1.4,1.6,1.8,2,0.6]
+a_list,b_list,c_list=[8],[4],[0.8,1,1.2]
+# a_list,b_list,c_list=[8],[4],[1.4,1.6,1.8,2,0.6]
 
 
 for ai, a in enumerate(a_list):

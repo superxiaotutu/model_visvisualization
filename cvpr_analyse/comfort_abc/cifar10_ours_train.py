@@ -1,21 +1,15 @@
-import os
 import time
+
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import cifarnet
 import numpy as np
-import sys
+import os
 
-arg = (sys.argv[1].split('-'))
+os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 
-a, b, c,cuda = arg[0], arg[1], arg[2], arg[3]
 
-print(a, b, c,cuda)
-os.environ["CUDA_VISIBLE_DEVICES"] = cuda
-
-a, b, c, d = float(a), float(b), float(c), 1
-
-_BATCH_SIZE = 100
+_BATCH_SIZE = 50
 lr = 0.0001
 
 X = tf.placeholder(tf.float32, [_BATCH_SIZE, 32, 32, 3])
@@ -92,13 +86,7 @@ def mask_image(img, grad_cam):
 
 def save():
     saver = tf.train.Saver()
-    saver.save(sess, "model" + str(a) + '_' + str(b) + '_' + str(c) + "/model.ckpt")
-
-
-def restore():
-    saver = tf.train.Saver()
-    saver.restore(sess, "model" + str(a) + '_' + str(b) + '_' + str(c) + "/model.ckpt")
-
+    saver.save(sess, "model_1/model.ckpt")
 
 adv_sample_get_op = stepll_adversarial_images(X, tf.random_uniform([1], 0, 0.3))
 fixed_adv_sample_get_op = stepll_adversarial_images(X, 0.15)
@@ -134,7 +122,7 @@ with tf.name_scope("attation_loss"):
     attention_loss = a_1 + a_2
 
 with tf.name_scope("total_loss"):
-    total_loss = 20 * classification_loss + 5 * attention_loss + 1 * grad_cam_loss
+    total_loss = 8 * classification_loss + 4 * attention_loss + 1 * grad_cam_loss
 
 with tf.name_scope("loss"):
     tf.summary.scalar('total_loss', total_loss)
@@ -147,7 +135,6 @@ accuracy = tf.reduce_mean(tf.cast(correct_p, "float"))
 tf.summary.scalar('accuracy', accuracy)
 train_op = tf.train.AdamOptimizer(lr).minimize(total_loss)
 summary_op = tf.summary.merge_all()
-
 
 def read_and_decode(filename, batch_size):
     filename_queue = tf.train.string_input_producer([filename])
@@ -217,15 +204,10 @@ train_writer = tf.summary.FileWriter("model/log/train", sess.graph)
 # test_writer = tf.summary.FileWriter("model/log/test", sess.graph)
 adv_writer = tf.summary.FileWriter("model/log/adv", sess.graph)
 
-try:
-    restore()
-except:
-    print('init')
-    pass
+
 
 time_start = time.time()
-result_file = 'result' + str(a) + '_' + str(b) + '_' + str(c) + '.txt'
-
+result_file = 'result_3_4_1.txt'
 f_w = open(result_file, 'a')
 f_w.write('ini')
 f_w.close()
@@ -235,29 +217,32 @@ for i in range(50000):
     _, acc, summery = sess.run([train_op, accuracy, summary_op],
                                feed_dict={X: batch[0], X_adv: adv_sample, Y: batch[1], keep_prop: 0.5})
 
-    adv_sample_N1 = sess.run(fixed_adv_sample_get_op, feed_dict={X: adv_sample, keep_prop: 1.0})
-    _, adv_acc, adv_summery = sess.run([train_op, accuracy, summary_op],
-                                       feed_dict={X: batch[0], X_adv: adv_sample_N1, Y: batch[1], keep_prop: 0.5})
-
+    # adv_sample_N1 = sess.run(fixed_adv_sample_get_op, feed_dict={X: adv_sample, keep_prop: 1.0})
+    # _, adv_acc, adv_summery = sess.run([train_op, accuracy, summary_op],
+    #                                    feed_dict={X: batch[0], X_adv: adv_sample_N1, Y: batch[1], keep_prop: 0.5})
+    #
     # adv_sample_N2 = sess.run(fixed_adv_sample_get_op, feed_dict={X: adv_sample_N1, keep_prop: 1.0})
-    # _, acc = sess.run([train_op, accuracy], feed_dict={X: adv_sample_N1, X_adv: adv_sample_N2, Y: batch[1], keep_prop: 0.5})
+    # _, acc = sess.run([train_op, accuracy], feed_dict={X:  batch[0], X_adv: adv_sample_N2, Y: batch[1], keep_prop: 0.5})
+
+    # adv_sample_N3= sess.run(fixed_adv_sample_get_op, feed_dict={X: adv_sample_N1, keep_prop: 1.0})
+    # _, acc = sess.run([train_op, accuracy],
+    #                   feed_dict={X:  batch[0], X_adv: adv_sample_N3, Y: batch[1], keep_prop: 0.5})
+    print(i)
     if 1 % 100 == 0:
+        print(i)
         testbatch = sess.run(test_batch)
         test_acc, test_summ = sess.run([accuracy, summary_op], feed_dict={X: testbatch[0], Y: batch[1], keep_prop: 1.0})
-        train_writer.add_summary(summery, i)
-        adv_writer.add_summary(adv_summery, i)
-        print(acc, i)
     if 1 % 1000 == 0:
         f_w = open(result_file, 'a')
         f_w.write(str(acc) + " " + str(i) + "\n")
         f_w.close()
-    if i % 10000 == 0 and i != 0:
+    if i % 10000 == 0 and i!=0:
         f_w = open(result_file, 'a')
         f_w.write(str(acc) + " " + str(i) + "\n")
         f_w.close()
         save()
-
 save()
+
 
 batch = sess.run(train_batch)
 R_cam = sess.run(rar_grad_cam, feed_dict={X: batch[0], Y: batch[1], keep_prop: 1.0})
@@ -289,14 +274,11 @@ print(ACC / (10000 // _BATCH_SIZE))
 print(adv_ACC / (10000 // _BATCH_SIZE))
 print(noise_adv_ACC / (10000 // _BATCH_SIZE))
 print(double_adv_ACC / (10000 // _BATCH_SIZE))
-f_w = open('result.txt', 'a')
-f_w.write(str(a) + " " + str(b) +" "+str(c)+ " ")
-f_w.write(str(ACC / (10000 // _BATCH_SIZE)) + " " + str(adv_ACC / (10000 // _BATCH_SIZE)) + " ")
-f_w.write(str(noise_adv_ACC / (10000 // _BATCH_SIZE)) + " " + str(double_adv_ACC / (10000 // _BATCH_SIZE)) + "\n")
-f_w.close()
 
 f_w = open(result_file, 'a')
-f_w.write(str(ACC / (10000 // _BATCH_SIZE)) + " " + str(adv_ACC / (10000 // _BATCH_SIZE)) + " ")
+f_w.write("1   ")
+f_w.write(str(ACC / (10000 // _BATCH_SIZE)) + " " + str(adv_ACC / (10000 // _BATCH_SIZE)) + "\n")
 f_w.write(str(noise_adv_ACC / (10000 // _BATCH_SIZE)) + " " + str(double_adv_ACC / (10000 // _BATCH_SIZE)) + "\n")
-f_w.write(str(time_end - time_start) + "s"+ "\n")
+f_w.write(str(time_end - time_start) + "s")
+
 f_w.close()

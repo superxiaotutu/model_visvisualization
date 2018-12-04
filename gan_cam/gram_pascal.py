@@ -228,7 +228,7 @@ if __name__ == '__main__':
                                                                               demo_target)
     rar_count, adv_count, IOU = get_count_IOU(rar_gard_cam, adv_gard_cam)
     print(label_before, label_after, IOU)
-    # if os._exists(results_file):
+    # if os.path.isfile (results_file):
     #     os.remove(results_file)
     # with open(labels_file, 'r')as f:
     #     lines = f.readlines()
