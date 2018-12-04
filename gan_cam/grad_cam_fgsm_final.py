@@ -5,6 +5,7 @@ import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import tensorflow.contrib.slim.nets as nets
 from skimage.transform import resize
+
 import PIL
 import numpy as np
 import json
@@ -141,7 +142,6 @@ def grad_cam(end_point, pre_calss_one_hot, layer_name='Mixed_7c'):
     # cam3 = np.tile(cam3, [1, 1, 3])
     # plt.imshow(cam3)
     # plt.show()
-    return np.sign(cam)
 
 
 def get_count_IOU(rar, adv):

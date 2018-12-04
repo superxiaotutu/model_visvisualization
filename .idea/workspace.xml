@@ -1,11 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/tongji/point_loss.py" line="65" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="a6e6cec9-e988-451b-acf2-ef55d3345c17" name="Default" comment="init">
+    <list default="true" id="a6e6cec9-e988-451b-acf2-ef55d3345c17" name="Default" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/deployment.xml&#10;#&#9;.idea/workspace.xml&#10;#&#9;cvpr_analyse/comfort_abc/cifarne1t.py&#10;#&#9;cvpr_analyse/gram_camera/camera.py&#10;#&#9;cvpr_analyse/model/cifarnet.py&#10;#&#9;cvpr_analyse/step_iou_attack/cifarnet.py&#10;">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/deployment.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cvpr_analyse/comfort_abc/cifarnet.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/webServers.xml" afterPath="$PROJECT_DIR$/.idea/webServers.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cvpr_analyse/gram_camera/camera.py" afterPath="$PROJECT_DIR$/cvpr_analyse/gram_camera/camera.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cvpr_analyse/model/cifarnet.py" afterPath="$PROJECT_DIR$/cvpr_analyse/model/cifarnet.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cvpr_analyse/step_iou_attack/cifarnet.py" afterPath="$PROJECT_DIR$/cvpr_analyse/step_iou_attack/cifarnet.py" />
+    </list>
+    <list id="0ec6ab97-a275-46af-99fa-a674ad64e519" name="Failed commit: Default" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/deployment.xml&#10;#&#9;.idea/workspace.xml&#10;#&#9;cvpr_analyse/comfort_abc/cifarne1t.py&#10;#&#9;cvpr_analyse/gram_camera/camera.py&#10;#&#9;cvpr_analyse/model/cifarnet.py&#10;#&#9;cvpr_analyse/step_iou_attack/cifarnet.py&#10;">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/gram_camera/adv.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/collect_iou/analyse_iou_1.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/collect_iou/grad_cam_data_iou.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/comfort_cifar/gram_MNIST_clean.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/calculate_iou/V3_namelist.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/calculate_iou/imagenet.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/calculate_iou/iou_analyse.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/calculate_iou/rar_groundtruth_iou.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/calculate_iou/test_watch_pic.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/calculate_iou/train_inception.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/gram_camera/a.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/gram_camera/camera_or.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/gram_camera/mnist/gram_MNIST_clear.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/gram_camera/mnist/gram_MNIST_mar.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/gram_camera/mnist/gram_MNIST_my.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/gram_camera/test_camera.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/middle_result/cifar10_train.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/middle_result/cifar10_train_gram.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/middle_result/get_cifar_grads.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/mnist_train/gram_MNIST_clear.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/mnist_train/gram_MNIST_mar.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/mnist_train/gram_MNIST_my.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/step_iou_attack/find_image_iou.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/step_iou_attack/iou_attack_or.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/step_iou_attack/iou_train.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/step_iou_attack/step_2_train.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cvpr_analyse/step_iou_attack/test.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gan_cam/CVPR_attantion_map/gram_MNIST_clear.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gan_cam/CVPR_attantion_map/gram_MNIST_mar.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gan_cam/CVPR_attantion_map/gram_MNIST_my.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/collect_iou/grad_cam_data_all.py" afterPath="$PROJECT_DIR$/collect_iou/grad_cam_data_all.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/comfort_cifar/gram_MNIST/gram_MNIST.py" afterPath="$PROJECT_DIR$/comfort_cifar/gram_MNIST/gram_MNIST.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cvpr_analyse/comfort_abc/cifar10_arg_store.py" afterPath="$PROJECT_DIR$/cvpr_analyse/comfort_abc/cifar10_arg_store.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gan_cam/grad_cam_fgsm_final.py" afterPath="$PROJECT_DIR$/gan_cam/grad_cam_fgsm_final.py" />
+    </list>
+    <list id="c3cd7b2e-eda8-47e2-8b9b-84095c40b5b4" name="Failed commit: Default (2)" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/deployment.xml&#10;#&#9;.idea/workspace.xml&#10;#&#9;cvpr_analyse/comfort_abc/cifarne1t.py&#10;#&#9;cvpr_analyse/gram_camera/camera.py&#10;#&#9;cvpr_analyse/model/cifarnet.py&#10;#&#9;cvpr_analyse/step_iou_attack/cifarnet.py&#10;">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/model_visvisualization.iml" afterPath="$PROJECT_DIR$/.idea/model_visvisualization.iml" />
     </list>
     <ignored path="model_visvisualization.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,43 +79,6 @@
     <option name="PATCH_PATH" value="" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
-  <component name="FUSProjectUsageTrigger">
-    <session id="-569606518">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.open.time.1" value="1" />
-          <entry key="project.opened" value="1" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="json" value="1" />
-          <entry key="py" value="6" />
-          <entry key="txt" value="6" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="JSON" value="1" />
-          <entry key="PLAIN_TEXT" value="6" />
-          <entry key="Python" value="6" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="dummy" value="1" />
-          <entry key="py" value="2091" />
-          <entry key="txt" value="1" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="PLAIN_TEXT" value="2" />
-          <entry key="Python" value="2091" />
-        </counts>
-      </usages-collector>
-    </session>
-  </component>
   <component name="FavoritesManager">
     <favorites_list name="model_visvisualization" />
   </component>
@@ -81,8 +87,8 @@
       <file leaf-file-name="grad_cam.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gan_cam/grad_cam.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="200" column="29" selection-start-line="200" selection-start-column="29" selection-end-line="200" selection-end-column="29" />
+            <state relative-caret-position="260">
+              <caret line="53" column="28" selection-start-line="49" selection-start-column="0" selection-end-line="53" selection-end-column="28" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -92,73 +98,9 @@
       </file>
     </leaf>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-      </list>
-    </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>_</find>
-      <find>V3</find>
-      <find>name</find>
-      <find>rar_gard_cam</find>
-      <find>img</find>
-      <find>big_dim</find>
-      <find>demo_epsilon</find>
-      <find>cat</find>
-      <find>demo_target</find>
-      <find>print</find>
-      <find>grad_cam</find>
-      <find>[0]</find>
-      <find>classify</find>
-      <find>plt.show</find>
-      <find>plt</find>
-      <find>plt.s</find>
-      <find>show</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>],</replace>
-    </replaceStrings>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/neurons/map_clsloc.txt" />
-        <option value="$PROJECT_DIR$/Spatial _main.py" />
-        <option value="$PROJECT_DIR$/neurons/result/results_adv.html" />
-        <option value="$PROJECT_DIR$/neurons/result/a.html" />
-        <option value="$PROJECT_DIR$/neurons/result/results.html" />
-        <option value="$PROJECT_DIR$/neurons/result/raradv.html" />
-        <option value="$PROJECT_DIR$/spatial/Spatial _main.py" />
-        <option value="$PROJECT_DIR$/neurons/Neurons_main.py" />
-        <option value="$PROJECT_DIR$/neurons/result/main.py" />
-        <option value="$PROJECT_DIR$/7.5/sources/list" />
-        <option value="$PROJECT_DIR$/7.5/code/results.html" />
-        <option value="$PROJECT_DIR$/7.5/code/Neurons_main.py" />
-        <option value="$PROJECT_DIR$/tongji/convname" />
-        <option value="$PROJECT_DIR$/tongji/render.html" />
-        <option value="$PROJECT_DIR$/tongji/1.html" />
-        <option value="$PROJECT_DIR$/main_scatter.py" />
-        <option value="$PROJECT_DIR$/main_matplot.py" />
-        <option value="$PROJECT_DIR$/tongji/echarts.py" />
-        <option value="$PROJECT_DIR$/object_distance/test.py" />
-        <option value="$PROJECT_DIR$/object_distance/tsne.py" />
-        <option value="$PROJECT_DIR$/cvpr_diff_loss/a.py" />
-        <option value="$PROJECT_DIR$/cvpr_diff_loss/test_json.py" />
-        <option value="$PROJECT_DIR$/tongji/out.csv" />
-        <option value="$PROJECT_DIR$/tongji/point_loss.py" />
-        <option value="$PROJECT_DIR$/gan_cam/imagenet_labes.txt" />
-        <option value="$PROJECT_DIR$/gan_cam/grad_cam_100.py" />
-        <option value="$PROJECT_DIR$/gan_cam/a.py" />
-        <option value="$PROJECT_DIR$/gan_cam/grad_cam_500.py" />
-        <option value="$PROJECT_DIR$/gan_cam/grad_cam_fgsm.py" />
-        <option value="$PROJECT_DIR$/gan_cam/grad_cam_fgsm_500.py" />
         <option value="$PROJECT_DIR$/gan_cam/grad_cam.py" />
       </list>
     </option>
@@ -169,7 +111,6 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
@@ -254,131 +195,9 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js-jscs-nodeInterpreter" value="D:\nodejs10\node.exe" />
-    <property name="last_opened_file_path" value="D:/phpStudy/WWW/CloudStorage" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-    <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="H:\model_visvisualization\gan_cam" />
-      <recent name="$PROJECT_DIR$/gan_cam" />
-      <recent name="H:\model_visvisualization\tongji" />
-      <recent name="H:\model_visvisualization\cvpr_diff_loss" />
-      <recent name="H:\model_visvisualization\object_distance" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="H:\model_visvisualization\cvpr_diff_loss" />
-      <recent name="H:\model_visvisualization\tongji\ " />
-      <recent name="H:\model_visvisualization\tongji\output" />
-      <recent name="H:\model_visvisualization\7.5\code" />
-      <recent name="H:\model_visvisualization" />
-    </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
-  <component name="RunManager" selected="Python.a (1)">
-    <configuration default="false" name="a (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/gan_cam" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="model_visvisualization" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gan_cam/a.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="a" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/cvpr_diff_loss" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="model_visvisualization" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cvpr_diff_loss/a.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="grad_cam" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/gan_cam" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="model_visvisualization" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gan_cam/grad_cam.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="point_loss" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tongji" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="model_visvisualization" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tongji/point_loss.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="test_json" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/cvpr_diff_loss" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="model_visvisualization" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cvpr_diff_loss/test_json.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager">
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -442,7 +261,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="model_visvisualization" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -462,12 +281,6 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
@@ -587,232 +400,12 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.a (1)" />
-      <item index="1" class="java.lang.String" itemvalue="Python.a" />
-      <item index="2" class="java.lang.String" itemvalue="Python.grad_cam" />
-      <item index="3" class="java.lang.String" itemvalue="Python.point_loss" />
-      <item index="4" class="java.lang.String" itemvalue="Python.test_json" />
-    </list>
-    <recent_temporary>
-      <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.a (1)" />
-        <item index="1" class="java.lang.String" itemvalue="Python.test_json" />
-        <item index="2" class="java.lang.String" itemvalue="Python.point_loss" />
-        <item index="3" class="java.lang.String" itemvalue="Python.grad_cam" />
-        <item index="4" class="java.lang.String" itemvalue="Python.a" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
-  <component name="SvnConfiguration">
-    <configuration />
-  </component>
   <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="a6e6cec9-e988-451b-acf2-ef55d3345c17" name="Default" comment="" />
-      <created>1528185173455</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1528185173455</updated>
-      <workItem from="1528360692175" duration="212000" />
-    </task>
-    <task id="LOCAL-00001" summary="init">
-      <created>1528185316215</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1528185316215</updated>
-    </task>
-    <task id="LOCAL-00002" summary="init">
-      <created>1528301884943</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1528301884943</updated>
-    </task>
-    <task id="LOCAL-00003" summary="init">
-      <created>1528302029196</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1528302029196</updated>
-    </task>
-    <task id="LOCAL-00004" summary="init">
-      <created>1528302413713</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1528302413713</updated>
-    </task>
-    <task id="LOCAL-00005" summary="init">
-      <created>1528303293227</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1528303293227</updated>
-    </task>
-    <task id="LOCAL-00006" summary="init">
-      <created>1528360842751</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1528360842751</updated>
-    </task>
-    <task id="LOCAL-00007" summary="init">
-      <created>1528538404755</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1528538404755</updated>
-    </task>
-    <task id="LOCAL-00008" summary="init">
-      <created>1528557113242</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1528557113242</updated>
-    </task>
-    <task id="LOCAL-00009" summary="init">
-      <created>1530782162355</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1530782162355</updated>
-    </task>
-    <task id="LOCAL-00010" summary="init">
-      <created>1530785037768</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1530785037768</updated>
-    </task>
-    <task id="LOCAL-00011" summary="init">
-      <created>1530785174710</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1530785174710</updated>
-    </task>
-    <task id="LOCAL-00012" summary="init">
-      <created>1530785863659</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1530785863659</updated>
-    </task>
-    <task id="LOCAL-00013" summary="init">
-      <created>1530786976638</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1530786976638</updated>
-    </task>
-    <task id="LOCAL-00014" summary="init">
-      <created>1530786992802</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1530786992802</updated>
-    </task>
-    <task id="LOCAL-00015" summary="init">
-      <created>1532260979855</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1532260979855</updated>
-    </task>
-    <task id="LOCAL-00016" summary="init">
-      <created>1532753573518</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1532753573518</updated>
-    </task>
-    <task id="LOCAL-00017" summary="init">
-      <created>1532755434970</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1532755434970</updated>
-    </task>
-    <task id="LOCAL-00018" summary="init">
-      <created>1534822929221</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1534822929222</updated>
-    </task>
-    <task id="LOCAL-00019" summary="init">
-      <created>1535283091000</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1535283091000</updated>
-    </task>
-    <task id="LOCAL-00020" summary="init">
-      <created>1537179183517</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1537179183517</updated>
-    </task>
-    <task id="LOCAL-00021" summary="init">
-      <created>1537179228108</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1537179228108</updated>
-    </task>
-    <task id="LOCAL-00022" summary="init">
-      <created>1537234518667</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1537234518667</updated>
-    </task>
-    <task id="LOCAL-00023" summary="init">
-      <created>1538278683445</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1538278683445</updated>
-    </task>
-    <task id="LOCAL-00024" summary="init">
-      <created>1538278945421</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1538278945421</updated>
-    </task>
-    <task id="LOCAL-00025" summary="init">
-      <created>1538280593669</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1538280593669</updated>
-    </task>
-    <task id="LOCAL-00026" summary="init">
-      <created>1539001954059</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1539001954059</updated>
-    </task>
-    <task id="LOCAL-00027" summary="init">
-      <created>1539002803366</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1539002803366</updated>
-    </task>
-    <option name="localTasksCounter" value="28" />
     <servers />
-  </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="212000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -820,7 +413,7 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27292112" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32827735" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -839,25 +432,6 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32827735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout>
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
-  </component>
-  <component name="Vcs.Log.UiProperties">
-    <option name="RECENTLY_FILTERED_USER_GROUPS">
-      <collection />
-    </option>
-    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-      <collection />
-    </option>
-  </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1044,8 +618,8 @@
     <entry file="file://$PROJECT_DIR$/gan_cam/a.py" />
     <entry file="file://$PROJECT_DIR$/gan_cam/grad_cam.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="200" column="29" selection-start-line="200" selection-start-column="29" selection-end-line="200" selection-end-column="29" />
+        <state relative-caret-position="260">
+          <caret line="53" column="28" selection-start-line="49" selection-start-column="0" selection-end-line="53" selection-end-column="28" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

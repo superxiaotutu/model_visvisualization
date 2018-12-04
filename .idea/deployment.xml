@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="211.71.76.161">
+  <component name="PublishConfigData">
     <serverData>
       <paths name="211.71.76.161">
         <serverdata>
           <mappings>
-            <mapping deploy="/" local="$PROJECT_DIR$/" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
       <paths name="211.71.76.163">
         <serverdata>
           <mappings>
-            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
       <paths name="Copy of project-level server '211.71.76.161'">
         <serverdata>
           <mappings>
-            <mapping deploy="/" local="$PROJECT_DIR$/" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
       <paths name="Copy of project-level server '211.71.76.163'">
         <serverdata>
           <mappings>
-            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

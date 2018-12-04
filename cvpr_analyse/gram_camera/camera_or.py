@@ -1,31 +1,19 @@
-
-
-
 import os
 import random
-
-import cv2
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import tensorflow.contrib.slim.nets as nets
-from skimage.transform import resize
 import PIL
 import numpy as np
 import json
-<<<<<<< HEAD
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-=======
-
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
->>>>>>> 157ac887fb8cf5947933ed0319c049dc42f2d9ef
 import matplotlib.pyplot as plt
 
 plt.switch_backend('agg')
-config = tf.ConfigProto()
-config.gpu_options.allow_growth = True
-sess = tf.InteractiveSession(config=config)
-image = tf.Variable(tf.zeros((299, 299, 3)))
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 
+sess = tf.InteractiveSession()
+image = tf.Variable(tf.zeros((299, 299, 3)))
+from skimage.transform import resize
 
 # 加载inceptionV
 def inception(image, reuse):
@@ -43,7 +31,7 @@ logits, probs, end_point = inception(image, reuse=False)
 restore_vars = [
     var for var in tf.global_variables()
     if var.name.startswith('InceptionV3/')
-    ]
+]
 saver = tf.train.Saver(restore_vars)
 saver.restore(sess, "inception_v3.ckpt")
 
@@ -56,8 +44,6 @@ with open(imagenet_json) as f:
 def classify(img):
     p = sess.run(probs, feed_dict={image: img})[0]
     return np.argmax(p)
-
-
 # 进攻
 def step_target_class_adversarial_images(x, eps, one_hot_target_class):
     logits, _, end_points = inception(x, reuse=True)
@@ -92,23 +78,17 @@ def stepllnoise_adversarial_images(x, eps):
 
 # TODO
 # 重要代码，获取激活分布8*8
-<<<<<<< HEAD
- のlayer_name = 'Mixed_7c'
-=======
-layer_name = 'Mixed_7c'
->>>>>>> 157ac887fb8cf5947933ed0319c049dc42f2d9ef
-num_class = 1000
-conv_layer = end_point[layer_name]
-pre_calss = tf.placeholder(tf.int32)
-one_hot = tf.sparse_to_dense(pre_calss, [num_class], 1.0)
-signal = tf.multiply(end_point['Logits'][:, 1:], one_hot)
-loss = tf.reduce_mean(signal)
-grads = tf.gradients(loss, conv_layer)[0]
-norm_grads = tf.div(grads, tf.sqrt(tf.reduce_mean(tf.square(grads))) + tf.constant(1e-5))
 
 
-def grad_cam(x, class_num):
-    output, grads_val = sess.run([conv_layer, norm_grads], feed_dict={image: x, pre_calss: class_num})
+def grad_cam(x, end_point, pre_calss, layer_name='Mixed_7c', num_class=1000):
+    conv_layer = end_point[layer_name]
+    one_hot = tf.sparse_to_dense(img_class, [1000], 1.0)
+    signal = tf.multiply(end_point['Logits'][:, 1:], one_hot)
+    loss = tf.reduce_mean(signal)
+    grads = tf.gradients(loss, conv_layer)[0]
+    norm_grads = tf.div(grads, tf.sqrt(tf.reduce_mean(tf.square(grads))) + tf.constant(1e-5))
+
+    output, grads_val = sess.run([conv_layer, norm_grads], feed_dict={image: x})
     output = output[0]
     grads_val = grads_val[0]
     weights = np.mean(grads_val, axis=(0, 1))  # [512]
@@ -118,24 +98,24 @@ def grad_cam(x, class_num):
     for i, w in enumerate(weights):
         cam += w * output[:, :, i]
 
-    # Passing through ReLU
+    # Passing through softmax
 
-    """"""
-    cam = np.maximum(cam, 0)
-    cam = cam / np.max(cam)
+    cam=np.exp(cam) / np.sum(np.exp(cam), axis=0)
+
+
     cam3 = np.expand_dims(cam, axis=2)
-    cam = np.tile(cam3, [1, 1, 3])
-    cam = resize(cam, (299, 299, 3))
-    return cam
+    cam3 = np.tile(cam3, [1, 1, 3])
+    cam = resize(cam3, (299, 299))
+
+    return (cam)
 
 
 def get_count_IOU(rar, adv):
-    rar_count = rar[rar == 1].size
-    adv_count = adv[adv == 1].size
-    sum = rar + adv
+    rar_count = rar[rar==1].size
+    adv_count = adv[adv==1].size
+    sum=rar+adv
     IOU = sum[sum == 2].size / sum[sum != 0].size
     return rar_count, adv_count, IOU
-
 
 x = tf.placeholder(tf.float32, (299, 299, 3))
 x_hat = image  # our trainable adversarial input
@@ -151,132 +131,76 @@ above = x + epsilon
 projected = tf.clip_by_value(tf.clip_by_value(x_hat, below, above), 0, 1)
 with tf.control_dependencies([projected]):
     project_step = tf.assign(x_hat, projected)
-FGSM_adv = stepll_adversarial_images(x_hat, 0.30)
-<<<<<<< HEAD
+def get_gard_cam(img_path, img_class, demo_target):
 
-
-=======
-
-
->>>>>>> 157ac887fb8cf5947933ed0319c049dc42f2d9ef
-def get_gard_cam(img_path, img_class):
-    demo_epsilon = 2.0 / 255.0
-    demo_lr = 0.1
-    demo_steps = 100
-    img = PIL.Image.open(img_path).convert('RGB')
+    img = PIL.Image.open(img_path)
     big_dim = max(img.width, img.height)
     wide = img.width > img.height
     new_w = 299 if not wide else int(img.width * 299 / img.height)
     new_h = 299 if wide else int(img.height * 299 / img.width)
     img = img.resize((new_w, new_h)).crop((0, 0, 299, 299))
     img = (np.asarray(img) / 255.0).astype(np.float32)
-    img = img[:, :, :3]
-    # 展示原分类图
-    label_before = classify(img, )
+    img=img[:,:,:3]
+
+    label_before = classify(img)
 
     # 获取原图激活区域
-    rar_gard_cam = grad_cam(img, img_class)
+    rar_gard_cam = grad_cam(img, end_point, img_class)
 
     # 显示被进攻后和的激活区域
 
+    # FGSM攻击
+
+    FGSM_adv = stepll_adversarial_images(x_hat, 0.30)
     sess.run(assign_op, feed_dict={x: img})
     adv = sess.run(FGSM_adv)
 
-    """"""
-
-    # 展示攻击后的图像
-    label_after = classify(adv)
     # 展示攻击后的图像的激活区域
-    adv_gard_cam = grad_cam(adv, img_class)
-
+    adv_gard_cam = grad_cam(adv, end_point, img_class)
+    label_after = classify(adv)
     return img, rar_gard_cam, adv_gard_cam, label_before, label_after
 
 
-sess.graph.finalize()
-
-
-<<<<<<< HEAD
-def show_img(file_name, img, rar, adv,ground_truth):
-=======
-def show_img(file_name, img, rar, adv,):
->>>>>>> 157ac887fb8cf5947933ed0319c049dc42f2d9ef
-    plt.figure()
-    plt.subplot(1, 3, 1)
-    plt.imshow(img)
-    plt.axis('off')
-    # plt.title(rar_label)
-    plt.subplot(1, 3, 2)
-    img = cv2.resize(img, (299, 299))
-    img = img.astype(float)
-    img /= img.max()
-    rar = cv2.applyColorMap(np.uint8(255 * rar), cv2.COLORMAP_JET)
-    rar = cv2.cvtColor(rar, cv2.COLOR_BGR2RGB)
-    alpha = 0.0072
-    rar = img + alpha * rar
-    rar /= rar.max()
-    plt.imshow(rar)
-    plt.axis('off')
-    # plt.title(rar_label)
-    plt.subplot(1, 3, 3)
-<<<<<<< HEAD
-    # adv = cv2.applyColorMap(np.uint8(255 * adv), cv2.COLORMAP_JET)
-    adv = cv2.applyColorMap(np.uint8(255 * ground_truth), cv2.COLORMAP_JET)
-=======
-    adv = cv2.applyColorMap(np.uint8(255 * adv), cv2.COLORMAP_JET)
->>>>>>> 157ac887fb8cf5947933ed0319c049dc42f2d9ef
-    adv = cv2.cvtColor(adv, cv2.COLOR_BGR2RGB)
-    alpha = 0.0072
-    adv = img + alpha * adv
-    adv /= adv.max()
-<<<<<<< HEAD
-    # plt.imshow(adv)
-=======
->>>>>>> 157ac887fb8cf5947933ed0319c049dc42f2d9ef
-    plt.imshow(adv)
-    plt.axis('off')
-    plt.savefig(file_name)
-    plt.close()
-
-def get_label_name(index):
-    with open('imagenet.json') as f:
-        imagenet_labels = json.load(f)
-        label = imagenet_labels[index]
-    return label
-
-
 if __name__ == '__main__':
-<<<<<<< HEAD
-=======
-
     labels_file = 'imagenet_labels.txt'
-    results_file = 'result_camera.txt'
+    results_file = 'result.txt'
 
     if os._exists(results_file):
         os.remove(results_file)
     with open(labels_file, 'r')as f:
         lines = f.readlines()
-        offset = 400
-        for index, line in enumerate(lines[offset:offset + 100]):
-            print(index + offset)
+        for index, line in enumerate(lines[300:]):
+            print(index)
             label_letter = line.split(' ')
             label_letter = label_letter[0]
-            img_class = index + offset
+            img_class = index
             demo_target = random.randint(0, 998)
             if demo_target == img_class:
                 demo_target = random.randint(0, 998)
             dir_name = 'img_val/' + str(label_letter)
             for root, dirs, files in os.walk(dir_name):
-                for index2, file in enumerate(files):
+                for index,file in enumerate(files):
                     img_path = dir_name + '/' + file
-                    img, rar_gard_cam, adv_gard_cam, label_before, label_after = get_gard_cam(img_path, img_class)
-                    print(label_before, label_after, img_class)
-                    if img_class == label_before:
-                        if label_before == label_after:
-                            filename = 'true_image/' + str(img_class) + '-' + str(index2) + get_label_name(
-                                img_class) + '.png'
-                        else:
-                            filename = 'result_image/' + str(img_class) + '-' + str(index2) + get_label_name(
-                                label_before) + '_' + get_label_name(label_after) + '.png'
+                    try:
+                        img, rar_gard_cam, adv_gard_cam, label_before, label_after = get_gard_cam(img_path, img_class,
+                                                                                                  demo_target)
+                    except Exception as e:
+                        print(e)
+                        continue
+                    print(label_before, label_after)
+                    if label_letter==label_before:
+                        filenam=str(label_before)+'.png'
+                    else:
+                        continue
+                        filenam=str(label_before)+'_'+str(label_letter)+'.png'
 
-                        show_img(filename, img, rar_gard_cam, adv_gard_cam)
->>>>>>> 157ac887fb8cf5947933ed0319c049dc42f2d9ef
+                    plt.figure()
+                    plt.subplot(1, 3, 1)
+                    plt.imshow(img)
+                    plt.subplot(1, 3, 2)
+                    plt.imshow(rar_gard_cam*img)
+                    plt.subplot(1, 3, 3)
+                    plt.imshow(adv_gard_cam*img)
+                    plt.savefig(filenam)
+                    plt.show()
+
